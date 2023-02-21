@@ -56,7 +56,10 @@
         switch($_SESSION['rol']){
             case 1: // admin?>
                 <section id="Usuarios" class="divUsuarios">
-                    <p class="titulos" >Administracion de usuarios</p>
+                    <div class="divUsuarios-cabecera">
+                        <p class="titulos" >Administracion de usuarios</p>
+                        <a href="panel.php?pan=1&acc=3" class="btn-ok ancora">Agregar nuevo usuario</a>
+                    </div>
                     <table class="lista">
                     <thead>
                     <tr>
@@ -137,8 +140,44 @@
                                         </div>
                                     </form>
                             </div><?php 
-                        break; } ?>
-                <?php }
+                        break; 
+                        case 3: ?>
+                            <div class="cajaSpot_cierre-crearUsuario">
+                                <p>Agregar nuevo usuario</p>
+                                <form class="formPanel" method="POST" action="panel.php">
+                                    <div class="formPanel-inputs">
+                                        <label for="nombre">NOMBRE<input type="text" class="inputPanel" name="nombre" id="nombre"></label>
+                                        <label for="apellido">APELLIDO<input type="text" class="inputPanel" name="apellido" id="apellido"></label>
+                                        <label for="dni">DNI<input type="text" class="inputPanel medio" name="dni" id="dni"></label>
+                                        <label for="rol">ROL
+                                            <select class="inputPanel" name="rol" id="rol">
+                                                    <option value="3">Alumno</option>
+                                                    <option value="2">Profesor</option>
+                                                    <option value="1">Administrador</option>
+                                            </select>
+                                        </label>
+                                        <label for="usuario">USUARIO<input type="text" class="inputPanel" name="usuario" id="usuario" ></label>
+                                        <label for="contraseña">CONTRASEÑA<input type="text" class="inputPanel" name="contraseña" id="contraseña"></label>
+                                        <label for="email">EMAIL<input type="text" class="inputPanel" name="email" id="email"></label>
+                                        <label for="estado">ESTADO
+                                            <select class="inputPanel" name="estado" id="estado">
+                                                <option value="1">Activo</option>
+                                                <option value="2">Inactivo</option>
+                                                <option value="3">Suspendido</option>
+                                            </select>
+                                        </label>
+                                    </div >
+                                    <div>
+                                        <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="3" required> Agregar usuario</label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <button type="submit" class="btn-ok">Agregar</button>
+                                        <a href="panel.php" class="btn-no ancora">Cancelar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php break;
+                    }
+                }
                 if(isset($_POST['confirmar'])){ ?>
                 <div class="cajaSpot_cierre-notif"><?php
                         switch($_POST['confirmar']){
@@ -156,6 +195,36 @@
                                 }else{
                                     $texto = Usuario::eliminarUsuario($id);
                                     echo $texto;
+                                    echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                }
+                            break;
+                            case 3: // agregar
+                                $nuevoUsuario = new Usuario(null,$_POST['nombre'],$_POST['apellido'],$_POST['usuario'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado']);
+                                $dni = $_POST['dni'];
+                                $email = $_POST['email'];
+                                $usuario = $_POST['usuario'];
+                                $con = condb();
+
+                                //verificacion de informacion con base de datos
+                                mysqli_query($con,"select * from usuarios where dni = $dni;");
+                                if(mysqli_affected_rows($con) == 0){
+                                    mysqli_query($con,"select * from usuarios where usuario = '$usuario';");
+                                    if(mysqli_affected_rows($con) == 0){
+                                        mysqli_query($con,"select * from usuarios where email = '$email';");
+                                        if(mysqli_affected_rows($con) == 0){
+                                            $texto = $nuevoUsuario->crearUsuario();
+                                            echo $texto;
+                                            echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                        }else{
+                                            echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>EMAIL<b > ya esta en el sistema";
+                                            echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                        }
+                                    }else{
+                                        echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>USUARIO<b > ya esta en el sistema";
+                                        echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                    }
+                                }else{
+                                    echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>DNI<b > ya esta en el sistema";
                                     echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                                 }
                             break;

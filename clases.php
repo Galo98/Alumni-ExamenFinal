@@ -78,9 +78,9 @@ class Usuario {
         $con = condb();
         $text = "";
 
-        mysqli_query($con,"insert into usuarios (nombre,apellido,usuario,rol,contraseña,email,dni,estado) values ('$this->nombre','$this->apellido','$this->usuario',$this->rol,'$this->contraseña','$this->email',$this->dni,$this->estado);");
+        mysqli_query($con,"insert into usuarios (nombre,apellido,usuario,rol,contraseña,email,dni,idEstado) values ('$this->nombre','$this->apellido','$this->usuario',$this->rol,'$this->contraseña','$this->email',$this->dni,$this->estado);");
 
-        (mysqli_affected_rows($con) >= 0) ? $text = "Usuario nuevo generado" : $text =" No se pudo generar un nuevo usuario";
+        (mysqli_affected_rows($con) > 0) ? $text = "Nuevo usuario agregado al sistema" : $text =" No se pudo generar un nuevo usuario";
 
         return $text;
     }

@@ -1,6 +1,6 @@
 ## Alumni
 
-### Este es un proyecto para aprobar la materia Algoritmos 2
+### Este es el proyecto del examen final de la materia Algoritmos 2
 
 ## Consigna
 

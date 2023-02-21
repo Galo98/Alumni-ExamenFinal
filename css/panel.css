@@ -7,6 +7,13 @@
     gap: 1rem;
 }
 
+.divUsuarios-cabecera{
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 table.lista {
     width: 95%;
     min-height: 120px;
@@ -111,12 +118,23 @@ table.lista thead th {
     gap: 6px;
 }
 
+.cajaSpot_cierre-crearUsuario{
+    position: fixed;
+    max-width: 36%;
+    max-height: 74%;
+    background-color: var(--color-celeste100);
+    z-index: 5;
+    border-radius: 12px;
+    padding: 8px 16px;
+}
+
 .cajaSpot_cierre-notif{
     display: flex;
     align-items: center;
     justify-content: center;
     position: fixed;
     max-width: 55%;
+    min-height: 8%;
     max-height: 14%;
     background-color: var(--color-celeste100);
     z-index: 5;
