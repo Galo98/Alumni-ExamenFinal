@@ -271,11 +271,92 @@
                         
                         #region modificarMateria
                         case 5: // panel modificar materia
+                            $data = Materia::buscarMateria($_GET['id']);
+                            $info = Usuario::buscarRol(2);
+                            $info2 = Carrera::buscarCarreras();
+                            ?>
+                            <div class="cajaSpot-cierre-crearMateria altura">
+                                <p class="titulos">Modificar materia</p>
+                                <form class="formPanel" method="POST" action="panel.php">
+                                    <div class="formPanel-inputs">
+                                        <label for="materia">MATERIA<input type="text" class="inputPanel" name="materia" onkeyup="this.value = this.value.toUpperCase();" id="materia" value="<?php echo $data['materia'] ?>"></label>
+                                        <label for="profesor" required>PROFESOR
+                                            <select class="inputPanel" name="profesor" id="profesor">
+                                                <option value="<?php echo $data['profesor'] ?>">
+                                                    <?php echo $data['nombre'] ." " .$data['apellido'] ." DNI: " .$data['dni'];?>
+                                                </option>
+                                                <?php 
+                                                    while($opciones = mysqli_fetch_assoc($info)){ 
+                                                        if($opciones['id'] != $data['profesor']){?>
+                                                    <option value="<?php echo $opciones['id'];?>">
+                                                        <?php echo $opciones['nombre'] ." " .$opciones['apellido'] ." DNI: " .$opciones['dni'];?>
+                                                    </option>
+                                                    <?php }
+                                                    }
+                                                ?>
+                                            </select>
+                                        </label>
+                                        <label for="carrera" required>CARRERA
+                                            <select class="inputPanel" name="carrera" id="carrera" required>
+                                                <option value="<?php echo $data['carrera'] ?>">
+                                                    <?php echo $data['nombreCarrera'];?>
+                                                </option>
+                                                <?php 
+                                                    while($data2 = mysqli_fetch_assoc($info2)){ 
+                                                        if($data2['id'] != $data['carrera']){?>
+                                                    <option value="<?php echo $data2['id'];?>">
+                                                        <?php echo $data2['nombreCarrera']?>
+                                                    </option>
+                                                    <?php } 
+                                                    }
+                                                ?>
+                                            </select>
+                                        </label>
+                                    </div >
+                                    <div>
+                                        <label for="modificar"><input type="checkbox" name="confirmar" id="modificar" value="5" required> Modificar materia</label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <input type="hidden" name="id" value="<?php echo $data['id'];?>">
+                                        <button type="submit" class="btn-ok">Modificar</button>
+                                        <a href="panel.php#Materias" class="btn-no ancora">Cancelar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php
                         break;
                         #endregion
                         
                         #region eliminarMateria
-                        case 6: // panel eliminar materia
+                        case 6: // panel eliminar materia ?>
+                            <div class="cajaSpot_cierre-eliminar altura"> <?php
+                                $id = $_GET['id'];
+                                $con = condb();
+                                $info = mysqli_query($con, "select materias.id, materias.materia, usuarios.nombre, usuarios.apellido, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id) where materias.id = $id;");
+                                $data = mysqli_fetch_assoc($info); ?>
+                                <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> la siguiente materia.</p>
+                                    <div class="cajaSpot_cierre_eliminar-info">
+                                        <div class="cajaSpot_cierre_eliminar_info-usuario">
+                                            <p><b class="bold">MATERIA: </b><?php echo $data['materia'];?></p>
+                                            <p><b class="bold">PROFESOR: </b><?php echo $data['nombre'] ." " .$data['apellido'];?></p>
+                                            <p><b class="bold">CARRERA: </b><?php echo $data['nombreCarrera'];?></p>
+                                        </div>
+                                        <div class="cajaSpot_cierre_eliminar_info-mensaje">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <form class="cajaSpot_cierre_eliminar_info-opciones" method="POST" action="panel.php">
+                                        <label for="confirmar">
+                                            <input type="checkbox" name="confirmar" id="confirmar" value="6" required>
+                                            Quiero eliminar esta materia
+                                        </label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <input type="hidden" name="id" value ="<?php echo $data['id'] ?>">
+                                        <div>
+                                            <button type="submit" class="btn-no">Eliminar Permanentemente</button>
+                                            <a href="panel.php#Carreras" class="btn-ok ancora">Cancelar</a>
+                                        </div>
+                                    </form>
+                            </div><?php
                         break;
                         #endregion
 
@@ -414,8 +495,16 @@
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 5: // modificar materia
+                                $materias = new Materia($_POST['id'],$_POST['materia'],$_POST['profesor'],$_POST['carrera']);
+                                $texto = $materias->modificarMateria();
+                                echo $texto;
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 6: // eliminar materia
+                                $con = condb();
+                                $texto = Materia::eliminarMateria($_POST['id']);
+                                echo $texto;
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 7: // agregar carrera
                                 $carrera = new Carrera(null,$_POST['carrera'],$_POST['dias'],$_POST['turno']);

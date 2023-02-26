@@ -286,6 +286,31 @@ class Materia{
     }
     #endregion
 
+    #region modificarMateria
+    public function modificarMateria(){
+        $con = condb();
+        $texto = "";
+        mysqli_query($con, "update materias set materia = '$this->materia', profesor = $this->profesor, carrera = $this->carrera where id = $this->id");
+
+        (mysqli_affected_rows($con) > 0) ? $texto = "Materia modificada correctamente" : $texto = "No se pudo modificar la materia";
+
+        return $texto;
+    }
+    #endregion
+
+    #region eliminarMateria
+    public static function eliminarMateria($id){
+        $con = condb();
+        $text = "";
+
+        mysqli_query($con, "delete from materias where id = $id;");
+
+        (mysqli_affected_rows($con) > 0) ? $text = "Materia eliminada correctamente" : $text = "No se pudo eliminar la materia";
+
+        return $text;
+    }
+    #endregion
+
     #region listarMaterias
     public static function listarMaterias(){
         $con = condb();
@@ -316,6 +341,25 @@ class Materia{
         }
     }
     #endregion
+
+    #region buscarMateria
+    public static function buscarMateria($id){
+        $con = condb();
+        
+        $info = mysqli_query($con, "select materias.id, materias.materia, materias.profesor, materias.carrera, usuarios.nombre, usuarios.apellido, usuarios.dni, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id);");
+
+        $data = mysqli_fetch_assoc($info);
+
+        return $data;
+    }
+    #endregion
+
+    public function getAll(){
+        echo $this->id;
+        echo $this->materia;
+        echo $this->profesor;
+        echo $this->carrera;
+    }
 }
 
 class Carrera{
