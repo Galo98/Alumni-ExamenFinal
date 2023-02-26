@@ -136,3 +136,7 @@ footer{
 .bold{
     font-weight: 500;
 }
+
+section[id] {
+    scroll-margin-top: 110px;
+}

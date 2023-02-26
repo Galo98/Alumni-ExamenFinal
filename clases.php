@@ -245,7 +245,7 @@ class Usuario {
                 <label for="confirmar_cambios"><input type="checkbox" name="confirmar" id="confirmar_cambios" value="1" required> Confirmar cambios</label>
                 <input type="hidden" name="pan" value="1"> 
                 <button type="submit" class="btn-ok">Modificar</button>
-                <a href="panel.php" class="btn-no ancora">Cancelar</a>
+                <a href="panel.php#Usuarios" class="btn-no ancora">Cancelar</a>
             </div>
         </form>
 

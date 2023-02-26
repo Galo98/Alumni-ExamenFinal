@@ -59,7 +59,7 @@
                 <section id="Usuarios" class="divUsuarios">
                     <div class="divUsuarios-cabecera">
                         <p class="titulos" >Administracion de usuarios</p>
-                        <a href="panel.php?pan=1&acc=3" class="btn-ok ancora">Agregar nuevo usuario</a>
+                        <a href="panel.php?pan=1&acc=3#Usuarios" class="btn-ok ancora">Agregar nuevo usuario</a>
                     </div>
                     <table class="lista">
                     <thead>
@@ -85,7 +85,7 @@
                 <section id="Carreras" class="divCarreras">
                     <div class="divCarreras-cabecera">
                         <p class="titulos" >Administracion de carreras</p>
-                        <a href="panel.php?pan=1&acc=7" class="btn-ok ancora">Agregar nueva carrera</a>
+                        <a href="panel.php?pan=1&acc=7#Carreras" class="btn-ok ancora">Agregar nueva carrera</a>
                     </div>
                     <table class="lista">
                     <thead>
@@ -107,7 +107,7 @@
                 <section id="Materias" class="divMaterias">
                     <div class="divMaterias-cabecera">
                         <p class="titulos" >Administracion de materias</p>
-                        <a href="panel.php?pan=1&acc=4" class="btn-ok ancora">Agregar nueva materia</a>
+                        <a href="panel.php?pan=1&acc=4#Materias" class="btn-ok ancora">Agregar nueva materia</a>
                     </div>
                     <table class="lista">
                     <thead>
@@ -144,13 +144,14 @@
                 <?php if(isset($_GET['acc'])){
                     switch($_GET['acc']){
                         case 1: ?> // panel modificar usuario
-                            <div class="cajaSpot_cierre-modificar"> <?php
+                            <div class="cajaSpot_cierre-modificar altura">
+                                <p>Modificar usuario</p> <?php
                                 $id = $_GET['id'];
                                 Usuario::formModificarUsuario($id); ?>
                             </div> <?php
                         break;
                         case 2: ?> // panel eliminar usuario
-                            <div class="cajaSpot_cierre-eliminar"> <?php
+                            <div class="cajaSpot_cierre-eliminar altura"> <?php
                                 $id = $_GET['id'];
                                 $con = condb();
                                 $info = mysqli_query($con, " select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = $id;");
@@ -179,13 +180,13 @@
                                         <input type="hidden" name="id" value ="<?php echo $data['id'] ?>">
                                         <div>
                                             <button type="submit" class="btn-no">Eliminar Permanentemente</button>
-                                            <a href="panel.php" class="btn-ok ancora">Cancelar</a>
+                                            <a href="panel.php#Usuarios" class="btn-ok ancora">Cancelar</a>
                                         </div>
                                     </form>
                             </div><?php 
                         break; 
                         case 3: ?> // panel crear usuario
-                            <div class="cajaSpot_cierre-crearUsuario">
+                            <div class="cajaSpot_cierre-crearUsuario altura">
                                 <p>Agregar nuevo usuario</p>
                                 <form class="formPanel" method="POST" action="panel.php">
                                     <div class="formPanel-inputs">
@@ -213,7 +214,7 @@
                                         <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="3" required> Agregar usuario</label>
                                         <input type="hidden" name="pan" value="1"> 
                                         <button type="submit" class="btn-ok">Agregar</button>
-                                        <a href="panel.php" class="btn-no ancora">Cancelar</a>
+                                        <a href="panel.php#Usuarios" class="btn-no ancora">Cancelar</a>
                                     </div>
                                 </form>
                             </div>
@@ -222,7 +223,7 @@
                             $info = Usuario::buscarRol(2);
                             $info2 = Carrera::buscarCarreras();
                         ?>
-                            <div class="cajaSpot-cierre-crearMateria">
+                            <div class="cajaSpot-cierre-crearMateria altura">
                                 <p>Agregar nueva materia</p>
                                 <form class="formPanel" method="POST" action="panel.php">
                                     <div class="formPanel-inputs">
@@ -250,7 +251,7 @@
                                         <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="4" required> Agregar nueva materia</label>
                                         <input type="hidden" name="pan" value="1"> 
                                         <button type="submit" class="btn-ok">Agregar</button>
-                                        <a href="panel.php" class="btn-no ancora">Cancelar</a>
+                                        <a href="panel.php#Materias" class="btn-no ancora">Cancelar</a>
                                     </div>
                                 </form>
                             </div>
@@ -261,7 +262,7 @@
                         break;
                         case 7: // panel crear carrera
                         ?>
-                        <div class="cajaSpot-cierre-crearCarrera">
+                        <div class="cajaSpot-cierre-crearCarrera altura">
                                 <p>Agregar nueva carrera</p>
                                 <form class="formPanel" method="POST" action="panel.php">
                                     <div class="formPanel-inputs">
@@ -273,7 +274,7 @@
                                         <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="7" required> Agregar nueva carrera</label>
                                         <input type="hidden" name="pan" value="1"> 
                                         <button type="submit" class="btn-ok">Agregar</button>
-                                        <a href="panel.php" class="btn-no ancora">Cancelar</a>
+                                        <a href="panel.php#Carreras" class="btn-no ancora">Cancelar</a>
                                     </div>
                                 </form>
                             </div>
@@ -292,7 +293,7 @@
                                 $mods = new Usuario($_POST['id'],$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado'],);
                                 $texto = $mods->modificarUsuario();
                                 echo $texto;
-                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 2: // eliminar usuario
                                 $id = $_POST['id'];
@@ -302,7 +303,7 @@
                                 }else{
                                     $texto = Usuario::eliminarUsuario($id);
                                     echo $texto;
-                                    echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                    echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
                                 }
                             break;
                             case 3: // agregar usuario
@@ -318,21 +319,21 @@
                                         if(mysqli_affected_rows($con) == 0){
                                             $texto = $nuevoUsuario->crearUsuario();
                                             echo $texto;
-                                            echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                            echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
                                         }else{
                                             echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>EMAIL<b > ya esta en el sistema";
-                                            echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                            echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
                                         }
                                 }else{
                                     echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>DNI<b > ya esta en el sistema";
-                                    echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                    echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
                                 }
                             break;
                             case 4: // agregar materia
                                 $materia = new Materia(null,$_POST['materia'],$_POST['profesor'],$_POST['carrera']);
                                 $texto = $materia-> crearMateria();
                                 echo $texto;
-                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                echo " <a href='panel.php#Materias' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 5: // modificar materia
                             break;
