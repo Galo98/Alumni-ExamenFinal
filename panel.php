@@ -81,28 +81,6 @@
                     </tbody>
                     </table>
                 </section>
-                <section id="Materias" class="divMaterias">
-                    <div class="divMaterias-cabecera">
-                        <p class="titulos" >Administracion de materias</p>
-                        <a href="panel.php?pan=1&acc=4" class="btn-ok ancora">Agregar nueva materia</a>
-                    </div>
-                    <table class="lista">
-                    <thead>
-                    <tr>
-                    <th>ID</th>
-                    <th>MATERIA</th>
-                    <th>PROFESOR</th>
-                    <th>CARRERA</th>
-                    <th>ACCIONES</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                        // Usuario::buscarUsuarios();
-                    ?>
-                    </tbody>
-                    </table>
-                </section>
                 <section id="Carreras" class="divCarreras">
                     <div class="divCarreras-cabecera">
                         <p class="titulos" >Administracion de carreras</p>
@@ -120,7 +98,29 @@
                     </thead>
                     <tbody>
                     <?php
-                        // Usuario::buscarUsuarios();
+                        Carrera::listarCarreras();
+                    ?>
+                    </tbody>
+                    </table>
+                </section>
+                <section id="Materias" class="divMaterias">
+                    <div class="divMaterias-cabecera">
+                        <p class="titulos" >Administracion de materias</p>
+                        <a href="panel.php?pan=1&acc=4" class="btn-ok ancora">Agregar nueva materia</a>
+                    </div>
+                    <table class="lista">
+                    <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>MATERIA</th>
+                    <th>PROFESOR</th>
+                    <th>CARRERA</th>
+                    <th>ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        Materia::listarMaterias();
                     ?>
                     </tbody>
                     </table>
@@ -142,13 +142,13 @@
             <a class="cajaSpot-cierre" href="panel.php"></a>
                 <?php if(isset($_GET['acc'])){
                     switch($_GET['acc']){
-                        case 1: ?>
+                        case 1: ?> // panel modificar usuario
                             <div class="cajaSpot_cierre-modificar"> <?php
                                 $id = $_GET['id'];
                                 Usuario::formModificarUsuario($id); ?>
                             </div> <?php
                         break;
-                        case 2: ?>
+                        case 2: ?> // panel eliminar usuario
                             <div class="cajaSpot_cierre-eliminar"> <?php
                                 $id = $_GET['id'];
                                 $con = condb();
@@ -183,7 +183,7 @@
                                     </form>
                             </div><?php 
                         break; 
-                        case 3: ?>
+                        case 3: ?> // panel crear usuario
                             <div class="cajaSpot_cierre-crearUsuario">
                                 <p>Agregar nuevo usuario</p>
                                 <form class="formPanel" method="POST" action="panel.php">
@@ -217,7 +217,7 @@
                                 </form>
                             </div>
                         <?php break;
-                        case 4: 
+                        case 4:  // panel crear materia
                             $info = Usuario::buscarRol(2);
                         ?>
                             <div class="cajaSpot-cierre-crearMateria">
@@ -251,6 +251,16 @@
                                 </form>
                             </div>
                         <?php break;
+                        case 5: // panel modificar materia
+                        break;
+                        case 6: // panel eliminar materia
+                        break;
+                        case 7: // panel crear carrera
+                        break;
+                        case 8: // panel modificar carrera
+                        break;
+                        case 9: //panel eliminar carrera
+                        break;
                     }
                 }
                 if(isset($_POST['confirmar'])){ ?>
