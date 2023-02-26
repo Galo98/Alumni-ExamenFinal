@@ -138,8 +138,18 @@ class Usuario {
     }
 #endregion
 
-#region buscarUsuarios
-    public static function buscarUsuarios(){
+#region buscarUsuario
+    public static function buscarRol($rol){
+        $con = condb();
+        
+        $data = mysqli_query($con, "select * from usuarios where rol = $rol;");
+
+        return $data;
+    }
+#endregion
+
+#region listarUsuarios
+    public static function listarUsuarios(){
         $con = condb();
 
         $data = mysqli_query($con,"select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from usuarios inner join roles on usuarios.rol = roles.id inner join estados on usuarios.idEstado = estados.id;");
@@ -242,6 +252,43 @@ class Usuario {
     <?php }
 
     #endregion
+
+}
+
+class Materias{
+
+    #region atributos
+    private $id;
+    private $materia;
+    private $profesor;
+    private $carrera;
+    #endregion
+
+    #region constructor
+    public function __construct($id,$materia,$profesor,$carrera){
+        $this->id = $id;
+        $this->materia = $materia;
+        $this->profesor = $profesor;
+        $this->carrera = $carrera;
+    }
+    #endregion
+
+    #region crearMateria
+    public function crearMateria(){
+        $con = condb();
+        $text = "";
+
+        mysqli_query($con, "insert into materias (materia,profesor,carrera) values ('$this->materia', $this->profesor, $this->carrera)");
+
+        (mysqli_affected_rows($con) > 0) ? $text = "Nueva materia agregada al sistema" : $text =" No se pudo generar una nueva materia";
+
+        return $text;
+    }
+    #endregion
+
+}
+
+class Carreras{
 
 }
 

@@ -76,7 +76,7 @@
                     </thead>
                     <tbody>
                     <?php
-                        Usuario::buscarUsuarios();
+                        Usuario::listarUsuarios();
                     ?>
                     </tbody>
                     </table>
@@ -84,7 +84,7 @@
                 <section id="Materias" class="divMaterias">
                     <div class="divMaterias-cabecera">
                         <p class="titulos" >Administracion de materias</p>
-                        <a href="" class="btn-ok ancora">Agregar nueva materia</a>
+                        <a href="panel.php?pan=1&acc=4" class="btn-ok ancora">Agregar nueva materia</a>
                     </div>
                     <table class="lista">
                     <thead>
@@ -93,6 +93,28 @@
                     <th>MATERIA</th>
                     <th>PROFESOR</th>
                     <th>CARRERA</th>
+                    <th>ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        // Usuario::buscarUsuarios();
+                    ?>
+                    </tbody>
+                    </table>
+                </section>
+                <section id="Carreras" class="divCarreras">
+                    <div class="divCarreras-cabecera">
+                        <p class="titulos" >Administracion de carreras</p>
+                        <a href="" class="btn-ok ancora">Agregar nueva carrera</a>
+                    </div>
+                    <table class="lista">
+                    <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>CARRERA</th>
+                    <th>DÍAS</th>
+                    <th>TURNO</th>
                     <th>ACCIONES</th>
                     </tr>
                     </thead>
@@ -195,18 +217,52 @@
                                 </form>
                             </div>
                         <?php break;
+                        case 4: 
+                            $info = Usuario::buscarRol(2);
+                        ?>
+                            <div class="cajaSpot-cierre-crearMateria">
+                                <p>Agregar nueva materia</p>
+                                <form class="formPanel" method="POST" action="panel.php">
+                                    <div class="formPanel-inputs">
+                                        <label for="materia">MATERIA<input type="text" class="inputPanel" name="materia" id="materia"></label>
+                                        <label for="profesor">PROFESOR
+                                            <select class="inputPanel" name="profesor" id="profesor">
+                                                <?php 
+                                                    while($data = mysqli_fetch_assoc($info)){ ?>
+                                                    <option value="<?php echo $data['id'];?>"><?php echo $data['nombre'] ." " .$data['apellido'] ." DNI: " .$data['dni'];?></option>
+                                                    <?php }
+                                                ?>
+                                            </select>
+                                        </label>
+                                        <label for="carrera">CARRERA
+                                            <select class="inputPanel" name="carrera" id="carrera">
+                                                <option value="1">Activo</option>
+                                                <option value="2">Inactivo</option>
+                                                <option value="3">Suspendido</option>
+                                            </select>
+                                        </label>
+                                    </div >
+                                    <div>
+                                        <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="4" required> Agregar nueva materia</label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <button type="submit" class="btn-ok">Agregar</button>
+                                        <a href="panel.php" class="btn-no ancora">Cancelar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php break;
                     }
                 }
                 if(isset($_POST['confirmar'])){ ?>
                 <div class="cajaSpot_cierre-notif"><?php
                         switch($_POST['confirmar']){
-                            case 1: // modificar
+                            case 1: // modificar usuario
                                 $mods = new Usuario($_POST['id'],$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado'],);
                                 $texto = $mods->modificarUsuario();
                                 echo $texto;
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
-                            case 2: // eliminar
+                            case 2: // eliminar usuario
                                 $id = $_POST['id'];
                                 if($id == "1"){
                                     echo "<b class='bold red'>¡¡ATENCIÓN!!</b> No se puede eliminar a este usuario del sistema";
@@ -217,7 +273,7 @@
                                     echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                                 }
                             break;
-                            case 3: // agregar
+                            case 3: // agregar usuario
                                 $nuevoUsuario = new Usuario(null,$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado']);
                                 $dni = $_POST['dni'];
                                 $email = $_POST['email'];
@@ -239,6 +295,21 @@
                                     echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>DNI<b > ya esta en el sistema";
                                     echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                                 }
+                            break;
+                            case 4: // agregar materia
+                                $materia = new Materias($_POST['materia'],$_POST['profesor'],$_POST['carrera']);
+
+                                $texto = $materia-> crearMateria();
+                            break;
+                            case 5: // modificar materia
+                            break;
+                            case 6: // eliminar materia
+                            break;
+                            case 7: // agregar carrera
+                            break;
+                            case 8: // modificar materia
+                            break;
+                            case 9: // eliminar materia
                             break;
                         }?>
                 </div>
