@@ -336,6 +336,27 @@ class Carrera{
     }
     #endregion
 
+    #region setAll
+    public function setAll($carrera,$dias,$turno){
+        $this->carrera = $carrera;
+        $this->dias = $dias;
+        $this->turno = $turno;
+    }
+    #endregion
+
+    #region getAll
+    public function getAll(){
+        $data = array(
+            'id' => $this->id,
+            'carrera' => $this->carrera,
+            'dias' => $this->dias,
+            'turno' => $this->turno
+        );
+
+        return $data;
+    }
+    #endregion
+    
     #region crearCarrera
     public function crearCarrera(){
         $con = condb();
@@ -344,6 +365,32 @@ class Carrera{
         mysqli_query($con, "insert into carreras (nombreCarrera,diasCursada,turno) values ('$this->carrera','$this->dias','$this->turno');");
 
         (mysqli_affected_rows($con) > 0) ? $text = "Nueva carrera agregada al sistema" : $text = "No se pudo agregar una nueva carrera al sistema";
+
+        return $text;
+    }
+    #endregion
+
+    #region modificarCarrera
+    public function modificarCarrera(){
+        $con = condb();
+        $text = "";
+
+        mysqli_query($con, "update carreras set nombreCarrera = '$this->carrera', diasCursada = '$this->dias', turno = '$this->turno' where id = $this->id;");
+        
+        (mysqli_affected_rows($con) > 0) ? $text = "Carrera modificada correctamente" : $text = "No se pudo modificar la carrera";
+
+        return $text;
+    }
+    #endregion
+
+    #region eliminarCarrera
+    public function eliminarCarrera(){
+        $con = condb();
+        $text = "" ;
+
+        mysqli_query($con,"delete from carreras where id = $this->id");
+
+        (mysqli_affected_rows($con) > 0) ? $text = "Carrera Eliminada permanentemente" : $text = "No se pudo eliminar la carrera";  
 
         return $text;
     }
