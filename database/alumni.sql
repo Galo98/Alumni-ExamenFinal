@@ -77,13 +77,15 @@ insert into usuarios (nombre,apellido,rol,contraseña,email,dni,idEstado) values
  
 # select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = 1;
  
-# select materias.id, materias.materia, usuarios.nombre, usuarios.apellido, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id);
+ select materias.id, materias.materia, materias.profesor, materias.carrera, usuarios.nombre, usuarios.apellido, usuarios.dni, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id);
  
 # select * from carreras;
 
 # select * from materias;
  
 # select * from usuarios;
+
+select materias.id, materias.materia, usuarios.nombre, usuarios.apellido, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id) where materias.id = 1;
  
  
 
