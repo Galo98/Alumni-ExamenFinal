@@ -191,9 +191,9 @@ class Usuario {
 
         <form class="formPanel" method="POST" action="panel.php">
             <div class="formPanel-inputs">
-                <label for="id">ID<input type="text" class="inputPanel corto" name="id" id="id" readonly value="<?php echo $info['id']; ?>"></label>
-                <label for="nombre">NOMBRE<input type="text" class="inputPanel" name="nombre" id="nombre" value="<?php echo $info['nombre']; ?>"></label>
-                <label for="apellido">APELLIDO<input type="text" class="inputPanel" name="apellido" id="apellido" value="<?php echo $info['apellido']; ?>"></label>
+                <label for="id">ID<input type="text" class="inputPanel corto" name="id"  id="id" readonly value="<?php echo $info['id']; ?>"></label>
+                <label for="nombre">NOMBRE<input type="text" class="inputPanel" name="nombre" onkeyup="this.value = this.value.toUpperCase();" id="nombre" value="<?php echo $info['nombre']; ?>"></label>
+                <label for="apellido">APELLIDO<input type="text" class="inputPanel" name="apellido" onkeyup="this.value = this.value.toUpperCase();" id="apellido" value="<?php echo $info['apellido']; ?>"></label>
                 <label for="rol">ROL
                     <select class="inputPanel" name="rol" id="rol">
                         <?php switch($info['rol']){
@@ -217,7 +217,7 @@ class Usuario {
                     </select>
                 </label>
                 <label for="contraseña">CONTRASEÑA<input type="text" class="inputPanel" name="contraseña" id="contraseña" value="<?php echo $info['contraseña']; ?>"></label>
-                <label for="email">EMAIL<input type="text" class="inputPanel" name="email" id="email" value="<?php echo $info['email']; ?>"></label>
+                <label for="email">EMAIL<input type="text" class="inputPanel" name="email" onkeyup="this.value = this.value.toUpperCase();" id="email" value="<?php echo $info['email']; ?>"></label>
                 <label for="dni">DNI<input type="text" class="inputPanel medio" name="dni" id="dni" value="<?php echo $info['dni']; ?>"></label>
                 <label for="estado">ESTADO
                     <select class="inputPanel" name="estado" id="estado"><?php
@@ -384,13 +384,13 @@ class Carrera{
     #endregion
 
     #region eliminarCarrera
-    public function eliminarCarrera(){
+    public static function eliminarCarrera($id){
         $con = condb();
         $text = "" ;
 
-        mysqli_query($con,"delete from carreras where id = $this->id");
+        mysqli_query($con,"delete from carreras where id = $id");
 
-        (mysqli_affected_rows($con) > 0) ? $text = "Carrera Eliminada permanentemente" : $text = "No se pudo eliminar la carrera";  
+        (mysqli_affected_rows($con) > 0) ? $text = "Carrera Eliminada permanentemente" : $text = "No se pudo eliminar la carrera. Por favor corrobore que esta carrera no tenga materias asignadas.";  
 
         return $text;
     }

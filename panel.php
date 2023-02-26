@@ -143,14 +143,18 @@
             <a class="cajaSpot-cierre" href="panel.php"></a>
                 <?php if(isset($_GET['acc'])){
                     switch($_GET['acc']){
-                        case 1: ?> // panel modificar usuario
+                        #region modificarUsuario
+                        case 1: ?> 
                             <div class="cajaSpot_cierre-modificar altura">
-                                <p>Modificar usuario</p> <?php
+                                <p class="titulos">Modificar usuario</p> <?php
                                 $id = $_GET['id'];
                                 Usuario::formModificarUsuario($id); ?>
                             </div> <?php
                         break;
-                        case 2: ?> // panel eliminar usuario
+                        #endregion
+                        
+                        #region eliminarUsuario
+                        case 2: ?>
                             <div class="cajaSpot_cierre-eliminar altura"> <?php
                                 $id = $_GET['id'];
                                 $con = condb();
@@ -169,6 +173,7 @@
                                         <div class="cajaSpot_cierre_eliminar_info-mensaje">
                                             <p>¿Está seguro que desea eliminar de forma permanente a <b class="bold"><?php echo $data['nombre']?></b> ?</p>
                                             <p>Tenga en cuenta que puede cancelar el acceso al usuario cambiando el estado del usuario por <b class="bold red">suspendido</b> o <b class="bold red">inactivo</b>.</p>
+                                            <p>Para <b class="bold red">ELIMINAR</b> a este usuario asegurese de haber limpiado su historial, eliminando sus notas en caso de ser alumno, o eliminando sus materias asignadas en caso de ser profesor.</p>
                                         </div>
                                     </div>
                                     <form class="cajaSpot_cierre_eliminar_info-opciones" method="POST" action="panel.php">
@@ -185,13 +190,16 @@
                                     </form>
                             </div><?php 
                         break; 
-                        case 3: ?> // panel crear usuario
+                        #endregion
+                        
+                        #region crearusuario
+                        case 3: ?>
                             <div class="cajaSpot_cierre-crearUsuario altura">
-                                <p>Agregar nuevo usuario</p>
+                                <p class="titulos">Agregar nuevo usuario</p>
                                 <form class="formPanel" method="POST" action="panel.php">
                                     <div class="formPanel-inputs">
-                                        <label for="nombre">NOMBRE<input type="text" class="inputPanel" name="nombre" id="nombre"></label>
-                                        <label for="apellido">APELLIDO<input type="text" class="inputPanel" name="apellido" id="apellido"></label>
+                                        <label for="nombre">NOMBRE<input type="text" class="inputPanel" name="nombre" onkeyup="this.value = this.value.toUpperCase();" id="nombre"></label>
+                                        <label for="apellido">APELLIDO<input type="text" class="inputPanel" onkeyup="this.value = this.value.toUpperCase();" name="apellido" id="apellido"></label>
                                         <label for="dni">DNI<input type="text" class="inputPanel medio" name="dni" id="dni"></label>
                                         <label for="rol">ROL
                                             <select class="inputPanel" name="rol" id="rol">
@@ -201,7 +209,7 @@
                                             </select>
                                         </label>
                                         <label for="contraseña">CONTRASEÑA<input type="text" class="inputPanel" name="contraseña" id="contraseña"></label>
-                                        <label for="email">EMAIL<input type="text" class="inputPanel" name="email" id="email"></label>
+                                        <label for="email">EMAIL<input type="text" class="inputPanel" onkeyup="this.value = this.value.toUpperCase();" name="email" id="email"></label>
                                         <label for="estado">ESTADO
                                             <select class="inputPanel" name="estado" id="estado">
                                                 <option value="1">Activo</option>
@@ -219,15 +227,18 @@
                                 </form>
                             </div>
                         <?php break;
-                        case 4:  // panel crear materia
+                        #endregion
+                        
+                        #region crearMateria
+                        case 4:  
                             $info = Usuario::buscarRol(2);
                             $info2 = Carrera::buscarCarreras();
                         ?>
                             <div class="cajaSpot-cierre-crearMateria altura">
-                                <p>Agregar nueva materia</p>
+                                <p class="titulos">Agregar nueva materia</p>
                                 <form class="formPanel" method="POST" action="panel.php">
                                     <div class="formPanel-inputs">
-                                        <label for="materia">MATERIA<input type="text" class="inputPanel" name="materia" id="materia" required></label>
+                                        <label for="materia">MATERIA<input type="text" class="inputPanel" name="materia" onkeyup="this.value = this.value.toUpperCase();" id="materia" required></label>
                                         <label for="profesor" required>PROFESOR
                                             <select class="inputPanel" name="profesor" id="profesor">
                                                 <?php 
@@ -256,19 +267,28 @@
                                 </form>
                             </div>
                         <?php break;
+                        #endregion
+                        
+                        #region modificarMateria
                         case 5: // panel modificar materia
                         break;
+                        #endregion
+                        
+                        #region eliminarMateria
                         case 6: // panel eliminar materia
                         break;
+                        #endregion
+
+                        #region crearCarrera
                         case 7: // panel crear carrera
                         ?>
                         <div class="cajaSpot-cierre-crearCarrera altura">
-                                <p>Agregar nueva carrera</p>
+                                <p class="titulos">Agregar nueva carrera</p>
                                 <form class="formPanel" method="POST" action="panel.php">
                                     <div class="formPanel-inputs">
-                                        <label for="carrera">CARRERA<input type="text" class="inputPanel" name="carrera" id="carrera" required></label>
-                                        <label for="dias">DÍAS<input type="text" class="inputPanel" name="dias" id="dias" placeholder="Lunes a Viernes - Lunes ,Miercoles ,Viernes" required></label>
-                                        <label for="turno">TURNO<input type="text" class="inputPanel" name="turno" id="turno" placeholder="Mañana ,Tarde ,Vespertino" required></label>
+                                        <label for="carrera">CARRERA<input type="text" class="inputPanel" name="carrera" onkeyup="this.value = this.value.toUpperCase();" id="carrera" required></label>
+                                        <label for="dias">DÍAS<input type="text" class="inputPanel" name="dias" onkeyup="this.value = this.value.toUpperCase();" id="dias" placeholder="Lunes a Viernes - Lunes ,Miercoles ,Viernes" required></label>
+                                        <label for="turno">TURNO<input type="text" class="inputPanel" name="turno" onkeyup="this.value = this.value.toUpperCase();" id="turno" placeholder="Mañana ,Tarde ,Vespertino" required></label>
                                     </div >
                                     <div>
                                         <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="7" required> Agregar nueva carrera</label>
@@ -280,17 +300,20 @@
                             </div>
                         <?php 
                         break;
+                        #endregion
+                        
+                        #region modificarCarrera
                         case 8: // panel modificar carrera
                             $info = Carrera::buscarCarrera($_GET['id']);
                             $data = mysqli_fetch_assoc($info);
                             ?>
                             <div class="cajaSpot-cierre-crearCarrera altura">
-                                <p>Modificar carrera</p>
+                                <p class="titulos">Modificar carrera</p>
                                 <form class="formPanel" method="POST" action="panel.php#Carreras">
                                     <div class="formPanel-inputs">
-                                        <label for="carrera">CARRERA<input type="text" class="inputPanel" name="carrera" id="carrera" value="<?php echo $data['nombreCarrera'] ?>"></label>
-                                        <label for="dias">DÍAS<input type="text" class="inputPanel" name="dias" id="dias"  value="<?php echo $data['diasCursada'] ?>"></label>
-                                        <label for="turno">TURNO<input type="text" class="inputPanel" name="turno" id="turno" value="<?php echo $data['turno'] ?>"></label>
+                                        <label for="carrera">CARRERA<input type="text" class="inputPanel" name="carrera" onkeyup="this.value = this.value.toUpperCase();" id="carrera" value="<?php echo $data['nombreCarrera'] ?>"></label>
+                                        <label for="dias">DÍAS<input type="text" class="inputPanel" name="dias" onkeyup="this.value = this.value.toUpperCase();" id="dias"  value="<?php echo $data['diasCursada'] ?>"></label>
+                                        <label for="turno">TURNO<input type="text" class="inputPanel" name="turno" onkeyup="this.value = this.value.toUpperCase();" id="turno" value="<?php echo $data['turno'] ?>"></label>
                                     </div >
                                     <div>
                                         <label for="modificar"><input type="checkbox" name="confirmar" id="modificar" value="8" required> Modificar carrera</label>
@@ -303,8 +326,42 @@
                             </div>
                             <?php
                         break;
-                        case 9: //panel eliminar carrera
+                        #endregion
+                        
+                        #region eliminarCarreara
+                        case 9: //panel eliminar carrera ?> 
+                            <div class="cajaSpot_cierre-eliminar altura"> <?php
+                                $id = $_GET['id'];
+                                $con = condb();
+                                $info = mysqli_query($con, "select * from carreras where id = $id;");
+                                $data = mysqli_fetch_assoc($info); ?>
+                                <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> la siguiente carrera.</p>
+                                    <div class="cajaSpot_cierre_eliminar-info">
+                                        <div class="cajaSpot_cierre_eliminar_info-usuario">
+                                            <p><b class="bold">CARRERA: </b><?php echo $data['nombreCarrera'];?></p>
+                                            <p><b class="bold">DIAS DE CURSADA: </b><?php echo $data['diasCursada'];?></p>
+                                            <p><b class="bold">TURNO: </b><?php echo $data['turno'];?></p>
+                                        </div>
+                                        <div class="cajaSpot_cierre_eliminar_info-mensaje">
+                                            <p>Para poder <b class="bold red">ELIMINAR</b> permanentemente esta carrera en primer lugar debe eliminar todas las materias que esta tenga asignada.</p>
+                                        </div>
+                                    </div>
+                                    <form class="cajaSpot_cierre_eliminar_info-opciones" method="POST" action="panel.php">
+                                        <label for="confirmar">
+                                            <input type="checkbox" name="confirmar" id="confirmar" value="9" required>
+                                            Ya elimine las materias y ahora quiero eliminar la carrera.
+                                        </label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <input type="hidden" name="id" value ="<?php echo $data['id'] ?>">
+                                        <div>
+                                            <button type="submit" class="btn-no">Eliminar Permanentemente</button>
+                                            <a href="panel.php#Carreras" class="btn-ok ancora">Cancelar</a>
+                                        </div>
+                                    </form>
+                            </div><?php 
                         break;
+                        #endregion
+                    
                     }
                 }
                 if(isset($_POST['confirmar'])){ ?>
@@ -373,6 +430,10 @@
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 9: // eliminar carrera
+                                $con = condb();
+                                $texto = Carrera::eliminarCarrera($_POST['id']);
+                                echo $texto;
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                         }?>
                 </div>

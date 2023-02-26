@@ -8,7 +8,7 @@ create table roles(
     primary key (id)
 );
 
-insert into roles (nombre) values ('administrador'), ('profesor'), ('alumno');
+insert into roles (nombre) values ('ADMINISTRADOR'), ('PROFESOR'), ('ALUMNO');
 
 create table estados(
 	id int auto_increment,
@@ -16,7 +16,7 @@ create table estados(
     primary key (id)
 );
 
-insert into estados (nombreEstado) values ('activo'), ('inactivo'), ('suspendido');
+insert into estados (nombreEstado) values ('ACTIVO'), ('INACTIVO'), ('SUSPENDIDO');
 
 create table carreras(
 	id int auto_increment,
@@ -44,6 +44,7 @@ create table materias(
     profesor int,
     carrera int,
     foreign key (carrera) references carreras(id),
+    foreign key (profesor) references usuarios(id),
     primary key (id,carrera)
 );
 
@@ -66,23 +67,23 @@ alter table notas add column notaParcial1 float(1.2);
 alter table notas add column notaParcial2 float(1.2);
 alter table notas add column notaFinal float(1.2);
 
-insert into usuarios (nombre,apellido,rol,contraseña,email,dni,idEstado) values ('galo','olguin',1,'1234','galo@gmail.com',41259861,1),
-('matias','ballone',2,'1234','mati@gmail.com',40125351,2),
-('Ezequiel','Eduartes',3,'1234','nemo@gmail.com',41521354,3);
+insert into usuarios (nombre,apellido,rol,contraseña,email,dni,idEstado) values ('GALO','OLGUIN',1,'1234','galo@gmail.com',41259861,1),
+('MATIAS','BALLONE',2,'1234','mati@gmail.com',40125351,2),
+('EZEQUIEL','EDUARTES',3,'1234','nemo@gmail.com',41521354,3);
 
-  select usuarios.nombre, usuarios.apellido, materias.materia,notas.notaParcial1,notas.notaPArcial2,notas.notaFinal from ((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id);
+#  select usuarios.nombre, usuarios.apellido, materias.materia,notas.notaParcial1,notas.notaPArcial2,notas.notaFinal from ((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id);
 
-  select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id);
+#  select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id);
  
- select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = 1;
+# select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = 1;
  
- select materias.id, materias.materia, usuarios.nombre, usuarios.apellido, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id);
+# select materias.id, materias.materia, usuarios.nombre, usuarios.apellido, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id);
  
- select * from materias;
+# select * from carreras;
 
- # select * from materias;
+# select * from materias;
  
- # select * from usuarios;
+# select * from usuarios;
  
  
 
