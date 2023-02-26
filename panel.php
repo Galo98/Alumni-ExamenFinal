@@ -64,8 +64,8 @@
                     <thead>
                     <tr>
                     <th>ID</th>
-                    <th>NOMBRE</th>
-                    <th>APELLIDO</th>
+                    <th>MATERIA</th>
+                    <th>PROFESOR</th>
                     <th>DNI</th>
                     <th>EMAIL</th>
                     <th>CONTRASEÑA</th>
@@ -90,13 +90,9 @@
                     <thead>
                     <tr>
                     <th>ID</th>
-                    <th>NOMBRE</th>
-                    <th>APELLIDO</th>
-                    <th>DNI</th>
-                    <th>EMAIL</th>
-                    <th>CONTRASEÑA</th>
-                    <th>ROL</th>
-                    <th>ESTADO</th>
+                    <th>MATERIA</th>
+                    <th>PROFESOR</th>
+                    <th>CARRERA</th>
                     <th>ACCIONES</th>
                     </tr>
                     </thead>
