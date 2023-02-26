@@ -1,13 +1,21 @@
-.divUsuarios{
+.Panel{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+
+.divUsuarios, .divMaterias{
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 22px;
 }
 
-.divUsuarios-cabecera{
+.divUsuarios-cabecera, .divMaterias-cabecera{
     width: 95%;
     display: flex;
     align-items: center;
@@ -172,3 +180,4 @@ table.lista thead th {
 .medio{
     width: 115px;
 }
+

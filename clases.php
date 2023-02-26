@@ -15,7 +15,6 @@ class Usuario {
     private $id;
     private $nombre;
     private $apellido;
-    private $usuario;
     private $rol; // 1 para administrador 2 para profesor 3 para alumno
     private $contraseña;
     private $email;
@@ -24,11 +23,10 @@ class Usuario {
 #endregion
 
 #region constructor
-    public function __construct($id,$nombre,$apellido,$usuario,$rol,$contraseña,$email,$dni,$estado){
+    public function __construct($id,$nombre,$apellido,$rol,$contraseña,$email,$dni,$estado){
         $this->id = $id;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
-        $this->usuario = $usuario;
         $this->rol = $rol;
         $this->contraseña = $contraseña;
         $this->email = $email;
@@ -43,7 +41,6 @@ class Usuario {
             'id' => $this->id,
             'nombre' => $this->nombre,
             'apellido' => $this->apellido,
-            'usuario' => $this->usuario,
             'rol' => $this-> rol,
             'contraseña' => $this->contraseña,
             'email' => $this->email,
@@ -54,17 +51,16 @@ class Usuario {
     }
 
     public function getAllByNumber(){
-        $data = array($this->id,$this->nombre,$this->apellido,$this->usuario,$this-> rol,$this->contraseña,$this->email,$this->dni,$this->estado);
+        $data = array($this->id,$this->nombre,$this->apellido,$this-> rol,$this->contraseña,$this->email,$this->dni,$this->estado);
         return $data;
     }
 #endregion
 
 #region sets
-    public function setAll($id, $nombre, $apellido, $usuario, $rol, $contraseña, $email, $dni, $estado){
+    public function setAll($id, $nombre, $apellido, $rol, $contraseña, $email, $dni, $estado){
         $this->id = $id;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
-        $this->usuario = $usuario;
         $this->rol = $rol;
         $this->contraseña = $contraseña;
         $this->email = $email;
@@ -78,7 +74,7 @@ class Usuario {
         $con = condb();
         $text = "";
 
-        mysqli_query($con,"insert into usuarios (nombre,apellido,usuario,rol,contraseña,email,dni,idEstado) values ('$this->nombre','$this->apellido','$this->usuario',$this->rol,'$this->contraseña','$this->email',$this->dni,$this->estado);");
+        mysqli_query($con,"insert into usuarios (nombre,apellido,rol,contraseña,email,dni,idEstado) values ('$this->nombre','$this->apellido',$this->rol,'$this->contraseña','$this->email',$this->dni,$this->estado);");
 
         (mysqli_affected_rows($con) > 0) ? $text = "Nuevo usuario agregado al sistema" : $text =" No se pudo generar un nuevo usuario";
 
@@ -91,7 +87,7 @@ class Usuario {
         $con = condb();
         $texto = "";
 
-        mysqli_query($con,"update usuarios set nombre = '$this->nombre', apellido = '$this->apellido', usuario ='$this->usuario' , rol = '$this->rol', contraseña = '$this->contraseña', email = '$this->email', dni = $this->dni , idEstado = $this->estado where id = $this->id;");
+        mysqli_query($con,"update usuarios set nombre = '$this->nombre', apellido = '$this->apellido' , rol = '$this->rol', contraseña = '$this->contraseña', email = '$this->email', dni = $this->dni , idEstado = $this->estado where id = $this->id;");
 
         (mysqli_affected_rows($con) > 0) ? $texto = 'Usuario modificado correctamente' : $texto = 'No se pudo modificar al usuario correctamente';
 
@@ -127,7 +123,6 @@ class Usuario {
                     session_start();
                     $_SESSION['nombre'] = $info['nombre'];
                     $_SESSION['apellido'] = $info['apellido'];
-                    $_SESSION['usuario'] = $info['usuario'];
                     $_SESSION['rol'] = $info['rol'];
                     $_SESSION['email'] = $info['email'];
                     $_SESSION['dni'] = $dni;
@@ -147,12 +142,11 @@ class Usuario {
     public static function buscarUsuarios(){
         $con = condb();
 
-        $data = mysqli_query($con,"select usuarios.id, usuarios.nombre, usuarios.apellido, usuarios.usuario, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from usuarios inner join roles on usuarios.rol = roles.id inner join estados on usuarios.idEstado = estados.id;");
+        $data = mysqli_query($con,"select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from usuarios inner join roles on usuarios.rol = roles.id inner join estados on usuarios.idEstado = estados.id;");
         
         while ($info = mysqli_fetch_assoc($data)){ ?>
             <tr>
                 <td><?php echo $info['id']; ?></td>
-                <td><?php echo $info['usuario']; ?></td>
                 <td><?php echo $info['nombre']; ?></td>
                 <td><?php echo $info['apellido']; ?></td>
                 <td><?php echo $info['dni']; ?></td>
@@ -190,7 +184,6 @@ class Usuario {
                 <label for="id">ID<input type="text" class="inputPanel corto" name="id" id="id" readonly value="<?php echo $info['id']; ?>"></label>
                 <label for="nombre">NOMBRE<input type="text" class="inputPanel" name="nombre" id="nombre" value="<?php echo $info['nombre']; ?>"></label>
                 <label for="apellido">APELLIDO<input type="text" class="inputPanel" name="apellido" id="apellido" value="<?php echo $info['apellido']; ?>"></label>
-                <label for="usuario">USUARIO<input type="text" class="inputPanel" name="usuario" id="usuario" value="<?php echo $info['usuario']; ?>"></label>
                 <label for="rol">ROL
                     <select class="inputPanel" name="rol" id="rol">
                         <?php switch($info['rol']){

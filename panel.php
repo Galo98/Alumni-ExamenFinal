@@ -34,7 +34,7 @@
                         switch($_SESSION['rol']){
                             case 1: // admin?>
                                 <a href="#Usuarios" class="header_div_nav-item">Usuarios</a>
-                                <a href="#" class="header_div_nav-item">Materias</a>
+                                <a href="#Materias" class="header_div_nav-item">Materias</a>
                             <?php
                                 break;
                             case 2: // profe ?>
@@ -51,7 +51,7 @@
                 </nav>
             </div>
     </header>
-    <main>
+    <main class="Panel">
         <?php 
         switch($_SESSION['rol']){
             case 1: // admin?>
@@ -64,7 +64,6 @@
                     <thead>
                     <tr>
                     <th>ID</th>
-                    <th>USUARIO</th>
                     <th>NOMBRE</th>
                     <th>APELLIDO</th>
                     <th>DNI</th>
@@ -78,6 +77,32 @@
                     <tbody>
                     <?php
                         Usuario::buscarUsuarios();
+                    ?>
+                    </tbody>
+                    </table>
+                </section>
+                <section id="Materias" class="divMaterias">
+                    <div class="divMaterias-cabecera">
+                        <p class="titulos" >Administracion de materias</p>
+                        <a href="" class="btn-ok ancora">Agregar nueva materia</a>
+                    </div>
+                    <table class="lista">
+                    <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>DNI</th>
+                    <th>EMAIL</th>
+                    <th>CONTRASEÑA</th>
+                    <th>ROL</th>
+                    <th>ESTADO</th>
+                    <th>ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        // Usuario::buscarUsuarios();
                     ?>
                     </tbody>
                     </table>
@@ -109,7 +134,7 @@
                             <div class="cajaSpot_cierre-eliminar"> <?php
                                 $id = $_GET['id'];
                                 $con = condb();
-                                $info = mysqli_query($con, " select usuarios.id, usuarios.nombre, usuarios.apellido, usuarios.usuario, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = $id;");
+                                $info = mysqli_query($con, " select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = $id;");
                                 $data = mysqli_fetch_assoc($info); ?>
                                 <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> al siguiente usuario.</p>
                                     <div class="cajaSpot_cierre_eliminar-info">
@@ -117,7 +142,6 @@
                                             <p><b class="bold">Nombre: </b><?php echo $data['nombre'];?></p>
                                             <p><b class="bold">Apellido: </b><?php echo $data['apellido'];?></p>
                                             <p><b class="bold">DNI: </b><?php echo $data['dni'];?></p>
-                                            <p><b class="bold">Usuario: </b><?php echo $data['usuario'];?></p>
                                             <p><b class="bold">Email: </b><?php echo $data['email'];?></p>
                                             <p><b class="bold">Rol: </b><?php echo $data['nombreRol'];?></p>
                                             <p><b class="bold">Estado: </b><?php echo $data['nombreEstado'];?></p>
@@ -156,7 +180,6 @@
                                                     <option value="1">Administrador</option>
                                             </select>
                                         </label>
-                                        <label for="usuario">USUARIO<input type="text" class="inputPanel" name="usuario" id="usuario" ></label>
                                         <label for="contraseña">CONTRASEÑA<input type="text" class="inputPanel" name="contraseña" id="contraseña"></label>
                                         <label for="email">EMAIL<input type="text" class="inputPanel" name="email" id="email"></label>
                                         <label for="estado">ESTADO
@@ -182,7 +205,7 @@
                 <div class="cajaSpot_cierre-notif"><?php
                         switch($_POST['confirmar']){
                             case 1: // modificar
-                                $mods = new Usuario($_POST['id'],$_POST['nombre'],$_POST['apellido'],$_POST['usuario'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado'],);
+                                $mods = new Usuario($_POST['id'],$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado'],);
                                 $texto = $mods->modificarUsuario();
                                 echo $texto;
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
@@ -199,17 +222,14 @@
                                 }
                             break;
                             case 3: // agregar
-                                $nuevoUsuario = new Usuario(null,$_POST['nombre'],$_POST['apellido'],$_POST['usuario'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado']);
+                                $nuevoUsuario = new Usuario(null,$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado']);
                                 $dni = $_POST['dni'];
                                 $email = $_POST['email'];
-                                $usuario = $_POST['usuario'];
                                 $con = condb();
 
                                 //verificacion de informacion con base de datos
                                 mysqli_query($con,"select * from usuarios where dni = $dni;");
                                 if(mysqli_affected_rows($con) == 0){
-                                    mysqli_query($con,"select * from usuarios where usuario = '$usuario';");
-                                    if(mysqli_affected_rows($con) == 0){
                                         mysqli_query($con,"select * from usuarios where email = '$email';");
                                         if(mysqli_affected_rows($con) == 0){
                                             $texto = $nuevoUsuario->crearUsuario();
@@ -219,10 +239,6 @@
                                             echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>EMAIL<b > ya esta en el sistema";
                                             echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                                         }
-                                    }else{
-                                        echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>USUARIO<b > ya esta en el sistema";
-                                        echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
-                                    }
                                 }else{
                                     echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>DNI<b > ya esta en el sistema";
                                     echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
