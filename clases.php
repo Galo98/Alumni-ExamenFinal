@@ -344,6 +344,8 @@ class Carrera{
         mysqli_query($con, "insert into carreras (nombreCarrera,diasCursada,turno) values ('$this->carrera','$this->dias','$this->turno');");
 
         (mysqli_affected_rows($con) > 0) ? $text = "Nueva carrera agregada al sistema" : $text = "No se pudo agregar una nueva carrera al sistema";
+
+        return $text;
     }
     #endregion
 

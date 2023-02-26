@@ -126,7 +126,7 @@ table.lista thead th {
     gap: 6px;
 }
 
-.cajaSpot_cierre-crearUsuario, .cajaSpot-cierre-crearMateria{
+.cajaSpot_cierre-crearUsuario, .cajaSpot-cierre-crearMateria ,.cajaSpot-cierre-crearCarrera{
     position: fixed;
     max-width: 36%;
     max-height: 74%;

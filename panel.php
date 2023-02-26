@@ -34,6 +34,7 @@
                         switch($_SESSION['rol']){
                             case 1: // admin?>
                                 <a href="#Usuarios" class="header_div_nav-item">Usuarios</a>
+                                <a href="#Carreras" class="header_div_nav-item">Carreras</a>
                                 <a href="#Materias" class="header_div_nav-item">Materias</a>
                             <?php
                                 break;
@@ -84,7 +85,7 @@
                 <section id="Carreras" class="divCarreras">
                     <div class="divCarreras-cabecera">
                         <p class="titulos" >Administracion de carreras</p>
-                        <a href="" class="btn-ok ancora">Agregar nueva carrera</a>
+                        <a href="panel.php?pan=1&acc=7" class="btn-ok ancora">Agregar nueva carrera</a>
                     </div>
                     <table class="lista">
                     <thead>
@@ -219,13 +220,14 @@
                         <?php break;
                         case 4:  // panel crear materia
                             $info = Usuario::buscarRol(2);
+                            $info2 = Carrera::buscarCarreras();
                         ?>
                             <div class="cajaSpot-cierre-crearMateria">
                                 <p>Agregar nueva materia</p>
                                 <form class="formPanel" method="POST" action="panel.php">
                                     <div class="formPanel-inputs">
-                                        <label for="materia">MATERIA<input type="text" class="inputPanel" name="materia" id="materia"></label>
-                                        <label for="profesor">PROFESOR
+                                        <label for="materia">MATERIA<input type="text" class="inputPanel" name="materia" id="materia" required></label>
+                                        <label for="profesor" required>PROFESOR
                                             <select class="inputPanel" name="profesor" id="profesor">
                                                 <?php 
                                                     while($data = mysqli_fetch_assoc($info)){ ?>
@@ -234,7 +236,7 @@
                                                 ?>
                                             </select>
                                         </label>
-                                        <label for="carrera">CARRERA
+                                        <label for="carrera" required>CARRERA
                                             <select class="inputPanel" name="carrera" id="carrera">
                                                 <option value="1">Activo</option>
                                                 <option value="2">Inactivo</option>
@@ -256,6 +258,24 @@
                         case 6: // panel eliminar materia
                         break;
                         case 7: // panel crear carrera
+                        ?>
+                        <div class="cajaSpot-cierre-crearCarrera">
+                                <p>Agregar nueva carrera</p>
+                                <form class="formPanel" method="POST" action="panel.php">
+                                    <div class="formPanel-inputs">
+                                        <label for="carrera">CARRERA<input type="text" class="inputPanel" name="carrera" id="carrera" required></label>
+                                        <label for="dias">DÍAS<input type="text" class="inputPanel" name="dias" id="dias" placeholder="Lunes a Viernes - Lunes ,Miercoles ,Viernes" required></label>
+                                        <label for="turno">TURNO<input type="text" class="inputPanel" name="turno" id="turno" placeholder="Mañana ,Tarde ,Vespertino" required></label>
+                                    </div >
+                                    <div>
+                                        <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="7" required> Agregar nueva carrera</label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <button type="submit" class="btn-ok">Agregar</button>
+                                        <a href="panel.php" class="btn-no ancora">Cancelar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php 
                         break;
                         case 8: // panel modificar carrera
                         break;
@@ -316,6 +336,10 @@
                             case 6: // eliminar materia
                             break;
                             case 7: // agregar carrera
+                                $carrera = new Carrera(null,$_POST['carrera'],$_POST['dias'],$_POST['turno']);
+                                $texto = $carrera -> crearCarrera();
+                                echo $texto;
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 8: // modificar materia
                             break;
