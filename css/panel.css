@@ -153,6 +153,7 @@ table.lista thead th {
     border-radius: 12px;
     padding: 8px 16px;
     gap: 12px;
+    top: 350px;
 }
 
 .formPanel, .formPanel-inputs{

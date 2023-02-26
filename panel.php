@@ -281,6 +281,27 @@
                         <?php 
                         break;
                         case 8: // panel modificar carrera
+                            $info = Carrera::buscarCarrera($_GET['id']);
+                            $data = mysqli_fetch_assoc($info);
+                            ?>
+                            <div class="cajaSpot-cierre-crearCarrera altura">
+                                <p>Modificar carrera</p>
+                                <form class="formPanel" method="POST" action="panel.php#Carreras">
+                                    <div class="formPanel-inputs">
+                                        <label for="carrera">CARRERA<input type="text" class="inputPanel" name="carrera" id="carrera" value="<?php echo $data['nombreCarrera'] ?>"></label>
+                                        <label for="dias">DÍAS<input type="text" class="inputPanel" name="dias" id="dias"  value="<?php echo $data['diasCursada'] ?>"></label>
+                                        <label for="turno">TURNO<input type="text" class="inputPanel" name="turno" id="turno" value="<?php echo $data['turno'] ?>"></label>
+                                    </div >
+                                    <div>
+                                        <label for="modificar"><input type="checkbox" name="confirmar" id="modificar" value="8" required> Modificar carrera</label>
+                                        <input type="hidden" name="pan" value="1">
+                                        <input type="hidden" name="id" value="<?php echo $data['id']?>"> 
+                                        <button type="submit" class="btn-ok">Agregar</button>
+                                        <a href="panel.php#Carreras" class="btn-no ancora">Cancelar</a>
+                                    </div>
+                                </form>
+                            </div>
+                            <?php
                         break;
                         case 9: //panel eliminar carrera
                         break;
@@ -293,7 +314,7 @@
                                 $mods = new Usuario($_POST['id'],$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado'],);
                                 $texto = $mods->modificarUsuario();
                                 echo $texto;
-                                echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 2: // eliminar usuario
                                 $id = $_POST['id'];
@@ -303,7 +324,7 @@
                                 }else{
                                     $texto = Usuario::eliminarUsuario($id);
                                     echo $texto;
-                                    echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
+                                    echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                                 }
                             break;
                             case 3: // agregar usuario
@@ -319,21 +340,21 @@
                                         if(mysqli_affected_rows($con) == 0){
                                             $texto = $nuevoUsuario->crearUsuario();
                                             echo $texto;
-                                            echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
+                                            echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                                         }else{
                                             echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>EMAIL<b > ya esta en el sistema";
-                                            echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
+                                            echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                                         }
                                 }else{
                                     echo "<b class='bold red'>¡Error al crear usuario!<b > El <b class='bold red'>DNI<b > ya esta en el sistema";
-                                    echo " <a href='panel.php#Usuarios' class='btn-ok ancora'>Cerrar</a>";
+                                    echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                                 }
                             break;
                             case 4: // agregar materia
                                 $materia = new Materia(null,$_POST['materia'],$_POST['profesor'],$_POST['carrera']);
                                 $texto = $materia-> crearMateria();
                                 echo $texto;
-                                echo " <a href='panel.php#Materias' class='btn-ok ancora'>Cerrar</a>";
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 5: // modificar materia
                             break;
@@ -345,9 +366,13 @@
                                 echo $texto;
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
-                            case 8: // modificar materia
+                            case 8: // modificar carrera
+                                $carrera = new Carrera($_POST['id'], $_POST['carrera'],$_POST['dias'],$_POST['turno']);
+                                $texto = $carrera -> modificarCarrera();
+                                echo $texto;
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
-                            case 9: // eliminar materia
+                            case 9: // eliminar carrera
                             break;
                         }?>
                 </div>

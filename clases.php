@@ -437,6 +437,15 @@ class Carrera{
     }
     #endregion
 
+    #region buscarCarrera
+    public static function buscarCarrera($id){
+        $con = condb();
+
+        $data = mysqli_query($con, "select * from carreras where id = $id");
+
+        return $data;
+    }
+    #endregion
 }
 
 
