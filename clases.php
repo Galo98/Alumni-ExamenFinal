@@ -290,7 +290,7 @@ class Materia{
     public static function listarMaterias(){
         $con = condb();
 
-        $data = mysqli_query($con,"select * from materias;");
+        $data = mysqli_query($con,"select materias.id, materias.materia, usuarios.nombre, usuarios.apellido, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id);");
         
         if(mysqli_affected_rows($con) == 0){
             echo "<tr><td><b class='bold red'>No hay materias registradas en el sistema</b></td></tr>";
@@ -299,8 +299,8 @@ class Materia{
                 <tr>
                     <td><?php echo $info['id']; ?></td>
                     <td><?php echo $info['materia']; ?></td>
-                    <td><?php echo $info['profesor']; ?></td>
-                    <td><?php echo $info['carrera']; ?></td>
+                    <td><?php echo $info['nombre'] ." " .$info['apellido']; ?></td>
+                    <td><?php echo $info['nombreCarrera']; ?></td>
                     <td>
                         <p class="acciones">
                             <a class="modificar" href="panel.php?pan=1 & acc=5 & id=<?php echo $info['id']; ?>">

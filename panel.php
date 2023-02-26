@@ -237,10 +237,12 @@
                                             </select>
                                         </label>
                                         <label for="carrera" required>CARRERA
-                                            <select class="inputPanel" name="carrera" id="carrera">
-                                                <option value="1">Activo</option>
-                                                <option value="2">Inactivo</option>
-                                                <option value="3">Suspendido</option>
+                                            <select class="inputPanel" name="carrera" id="carrera" required>
+                                                <?php 
+                                                    while($data2 = mysqli_fetch_assoc($info2)){ ?>
+                                                    <option value="<?php echo $data2['id'];?>"><?php echo $data2['nombreCarrera']?></option>
+                                                    <?php }
+                                                ?>
                                             </select>
                                         </label>
                                     </div >
@@ -327,9 +329,10 @@
                                 }
                             break;
                             case 4: // agregar materia
-                                $materia = new Materias($_POST['materia'],$_POST['profesor'],$_POST['carrera']);
-
+                                $materia = new Materia(null,$_POST['materia'],$_POST['profesor'],$_POST['carrera']);
                                 $texto = $materia-> crearMateria();
+                                echo $texto;
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 5: // modificar materia
                             break;

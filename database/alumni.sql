@@ -70,17 +70,20 @@ insert into usuarios (nombre,apellido,rol,contraseña,email,dni,idEstado) values
 ('matias','ballone',2,'1234','mati@gmail.com',40125351,2),
 ('Ezequiel','Eduartes',3,'1234','nemo@gmail.com',41521354,3);
 
- # select usuarios.nombre, usuarios.apellido, materias.nombreMateria,notas.notaParcial1,notas.notaPArcial2,notas.notaFinal from ((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id);
+  select usuarios.nombre, usuarios.apellido, materias.materia,notas.notaParcial1,notas.notaPArcial2,notas.notaFinal from ((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id);
 
- # select usuarios.id, usuarios.nombre, usuarios.apellido, usuarios.usuario, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id);
+  select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id);
  
- # select usuarios.id, usuarios.nombre, usuarios.apellido, usuarios.usuario, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = 1;
+ select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = 1;
+ 
+ select materias.id, materias.materia, usuarios.nombre, usuarios.apellido, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id);
+ 
+ select * from materias;
 
  # select * from materias;
  
  # select * from usuarios;
-
-
+ 
  
 
 

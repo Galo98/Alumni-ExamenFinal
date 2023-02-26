@@ -81,7 +81,7 @@ header{
 
 main{
     width: 100%;
-    padding-top: 98px;
+    padding: 98px 0;
     min-height: 72vh;
     background-color: var(--color-celeste100);
     display: flex;
