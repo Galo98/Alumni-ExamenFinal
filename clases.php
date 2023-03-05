@@ -354,12 +354,6 @@ class Materia{
     }
     #endregion
 
-    public function getAll(){
-        echo $this->id;
-        echo $this->materia;
-        echo $this->profesor;
-        echo $this->carrera;
-    }
 }
 
 class Carrera{
@@ -490,7 +484,58 @@ class Carrera{
         return $data;
     }
     #endregion
+
 }
 
+class Notas{
+
+    #region atributos
+    private $usuario;
+    private $carrera;
+    private $nota = 0;
+    #endregion
+
+    #region constructor
+    public function __construct($usu,$car){
+        $this->usuario = $usu;
+        $this->carrera = $car;
+    }
+    #endregion
+
+    #region crearNota
+    public function asignarCarrera(){
+        $con = condb();
+        $text = "";
+        $a = mysqli_fetch_assoc(mysqli_query($con,"select count(id) from materias where carrera = 1;"));
+        $totalMaterias = $a['count(id)'];
+        $contador = 0;
+        $agregar = array();
+
+        $materias = mysqli_query($con,"select id from materias where carrera = $this->carrera");
+
+        while($cargar = mysqli_fetch_assoc($materias)){
+            if($contador == $totalMaterias - 1){
+                $dato = "(" .$this->usuario ."," .$cargar['id'] .", 11, 11, 11" .")";
+                array_push($agregar,$dato);
+            }else {
+                $dato = "(" .$this->usuario ."," .$cargar['id'] .", 11, 11, 11" ."),";
+                array_push($agregar,$dato);
+            }
+            $contador ++;
+        }
+
+        $valores = implode($agregar);
+
+        mysqli_query($con,"insert into notas (idUsuario,idMateria,notaParcial1,notaParcial2,notaFinal) values $valores");
+
+        (mysqli_affected_rows($con) >0) ? $text = "Carrera asignada correctamente" : $text = "No se pudo asignar la carrera correctamente";
+
+        return $text;
+    }
+    #endregion
+
+
+
+}
 
 ?>

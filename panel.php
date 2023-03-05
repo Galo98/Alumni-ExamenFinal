@@ -55,18 +55,20 @@
     <main class="Panel">
         <?php 
         switch($_SESSION['rol']){
-            case 1: // admin?>
+            case 1: // admin
+
+                #region Usuarios ?>
                 <section id="Usuarios" class="divUsuarios">
                     <div class="divUsuarios-cabecera">
-                        <p class="titulos" >Administracion de usuarios</p>
+                        <p class="titulos" >Administración de usuarios</p>
                         <a href="panel.php?pan=1&acc=3#Usuarios" class="btn-ok ancora">Agregar nuevo usuario</a>
                     </div>
                     <table class="lista">
                     <thead>
                     <tr>
                     <th>ID</th>
-                    <th>MATERIA</th>
-                    <th>PROFESOR</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
                     <th>DNI</th>
                     <th>EMAIL</th>
                     <th>CONTRASEÑA</th>
@@ -82,9 +84,13 @@
                     </tbody>
                     </table>
                 </section>
+                <?php 
+                #endregion
+
+                #region Carreras?>
                 <section id="Carreras" class="divCarreras">
                     <div class="divCarreras-cabecera">
-                        <p class="titulos" >Administracion de carreras</p>
+                        <p class="titulos" >Administración de carreras</p>
                         <a href="panel.php?pan=1&acc=7#Carreras" class="btn-ok ancora">Agregar nueva carrera</a>
                     </div>
                     <table class="lista">
@@ -104,9 +110,13 @@
                     </tbody>
                     </table>
                 </section>
+                <?php 
+                #endregion
+                
+                #region Materias?>
                 <section id="Materias" class="divMaterias">
                     <div class="divMaterias-cabecera">
-                        <p class="titulos" >Administracion de materias</p>
+                        <p class="titulos" >Administración de materias</p>
                         <a href="panel.php?pan=1&acc=4#Materias" class="btn-ok ancora">Agregar nueva materia</a>
                     </div>
                     <table class="lista">
@@ -127,6 +137,37 @@
                     </table>
                 </section>
             <?php
+                #endregion
+                
+                #region Asignacion de materias
+                ?>
+                <section id="Notas" class="divMaterias">
+                    <div class="divMaterias-cabecera">
+                        <p class="titulos" >Asignación de materias</p>
+                        <a href="panel.php?pan=1&acc=#Notas" class="btn-ok ancora">Asignar nueva carrera</a>
+                    </div>
+                    <table class="lista">
+                    <thead>
+                    <tr>
+                    <th>ALUMNO</th>
+                    <th>MATERIA</th>
+                    <th>CARRERA</th>
+                    <th>PARCIAL 1</th>
+                    <th>PARCIAL 2</th>
+                    <th>FINAL</th>
+                    <th>ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        // Materia::listarMaterias();
+                    ?>
+                    </tbody>
+                    </table>
+                </section>
+                <?php
+                #endregion
+
                 break;
             case 2: // profe ?>
 
@@ -143,6 +184,7 @@
             <a class="cajaSpot-cierre" href="panel.php"></a>
                 <?php if(isset($_GET['acc'])){
                     switch($_GET['acc']){
+
                         #region modificarUsuario
                         case 1: ?> 
                             <div class="cajaSpot_cierre-modificar altura">
@@ -361,7 +403,7 @@
                         #endregion
 
                         #region crearCarrera
-                        case 7: // panel crear carrera
+                        case 7:
                         ?>
                         <div class="cajaSpot-cierre-crearCarrera altura">
                                 <p class="titulos">Agregar nueva carrera</p>
