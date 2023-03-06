@@ -68,13 +68,13 @@ insert into usuarios (nombre,apellido,rol,contraseña,email,dni,idEstado) values
 ('MATIAS','BALLONE',2,'1234','mati@gmail.com',40125351,2),
 ('EZEQUIEL','EDUARTES',3,'1234','nemo@gmail.com',41521354,3);
 
-select id,materia from materias where carrera = 1;
+# select id,materia from materias where carrera = 1;
 
-select count(id) from materias where carrera = 1;
+# select count(id) from materias where carrera = 1;
 
-select * from notas;
+# select * from notas;
 
-#  select usuarios.nombre, usuarios.apellido, materias.materia,notas.notaParcial1,notas.notaPArcial2,notas.notaFinal from ((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id);
+ # select notas.idUsuario, notas.idMateria, usuarios.nombre, usuarios.apellido, materias.materia, carreras.nombreCarrera ,notas.notaParcial1,notas.notaParcial2,notas.notaFinal from (((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id) inner join carreras on carreras.id = materias.carrera );
 
 #  select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id);
  

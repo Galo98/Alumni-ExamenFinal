@@ -534,7 +534,61 @@ class Notas{
     }
     #endregion
 
+    #region listarNotas
+    public static function listarNotas(){
+        $con = condb();
 
+
+        $data = mysqli_query($con,"select notas.idUsuario,notas.idMateria, usuarios.nombre, usuarios.apellido, materias.materia, carreras.nombreCarrera ,notas.notaParcial1,notas.notaParcial2,notas.notaFinal from (((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id) inner join carreras on carreras.id = materias.carrera );");
+
+        if(mysqli_affected_rows($con) == 0){
+            echo "<tr><td><b class='bold red'>No hay carreras registradas en el sistema</b></tr></td>";
+        }else{
+            while ($info = mysqli_fetch_assoc($data)){ ?>
+                <tr>
+                    <td><?php echo $info['nombre'] ." " .$info['apellido']; ?></td>
+                    <td><?php echo $info['materia']; ?></td>
+                    <td><?php echo $info['nombreCarrera']; ?></td>
+                    <td><?php if($info['notaParcial1'] >10 ){
+                        echo " ";
+                    }else {
+                        echo $info['notaParcial1'];
+                    } ?></td>
+                    <td><?php if($info['notaParcial2'] >10 ){
+                        echo " ";
+                    }else {
+                        echo $info['notaParcial2'];
+                    }?></td>
+                    <td><?php if($info['notaFinal'] >10 ){
+                        echo " ";
+                    }else {
+                        echo $info['notaFinal'];
+                    }?></td>
+                    <td>
+                        <p class="acciones">
+                            <a class="eliminar" href="panel.php?pan=1 & acc=11 & idU=<?php echo $info['idUsuario']; ?> & idM=<?php echo $info['idMateria']?>">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </p>
+                    </td>
+                </tr>
+            <?php   }
+        }
+    }
+    #endregion
+
+    #region eliminarNotas
+    public function eliminarNotas($usu,$car){
+        $con = condb();
+        $text = "";
+
+        mysqli_query($con,"delete from notas where idUsuario = $this->usuario and idMateria = $this->carrera");
+
+        (mysqli_affected_rows($con) >0) ? $text = "Inscripcion de materia eliminada." : $text = "No se pudo eliminar la inscripcion de materia correctamente.";
+
+        return $text;
+    }
+    #endregion
 
 }
 

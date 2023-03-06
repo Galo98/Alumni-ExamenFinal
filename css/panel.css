@@ -72,7 +72,7 @@ table.lista thead th {
 .cajaSpot-cierre{
     position: fixed;
     width: 100%;
-    height: 130%;
+    height: 2000%;
     opacity: 30%;
     background-color: black;
     z-index: 2;

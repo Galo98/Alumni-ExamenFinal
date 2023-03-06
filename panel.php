@@ -53,6 +53,7 @@
             </div>
     </header>
     <main class="Panel">
+
         <?php 
         switch($_SESSION['rol']){
             case 1: // admin
@@ -139,12 +140,12 @@
             <?php
                 #endregion
                 
-                #region Asignacion de materias
+                #region Inscripciones
                 ?>
-                <section id="Notas" class="divMaterias">
+                <section id="inscribir" class="divMaterias">
                     <div class="divMaterias-cabecera">
                         <p class="titulos" >Asignación de materias</p>
-                        <a href="panel.php?pan=1&acc=#Notas" class="btn-ok ancora">Asignar nueva carrera</a>
+                        <a href="panel.php?pan=1&acc=10#inscribir" class="btn-ok ancora">Inscribir alumno</a>
                     </div>
                     <table class="lista">
                     <thead>
@@ -160,7 +161,7 @@
                     </thead>
                     <tbody>
                     <?php
-                        // Materia::listarMaterias();
+                        Notas::listarNotas();
                     ?>
                     </tbody>
                     </table>
@@ -178,6 +179,7 @@
             <?php
                 break;
         }
+
         if(isset($_GET['pan']) && $_GET['pan'] == '1' || isset($_POST['pan']) && $_POST['pan'] == '1'){
         ?>
         <section class="cajaSpot">
@@ -485,6 +487,81 @@
                         break;
                         #endregion
                     
+                        #region inscribirAlumno
+                        case 10:
+                            $info = Usuario::buscarRol(3);
+                            $info2 = Carrera::buscarCarreras();
+                        ?>
+                        <div class="cajaSpot-cierre-crearMateria altura">
+                                <p class="titulos">Inscripciones de alumnos a carreras</p>
+                                <form class="formPanel" method="POST" action="panel.php">
+                                    <div class="formPanel-inputs">
+                                        <label for="alumno" required>ALUMNO
+                                            <select class="inputPanel" name="alumno" id="alumno">
+                                                <?php 
+                                                    while($data = mysqli_fetch_assoc($info)){ ?>
+                                                    <option value="<?php echo $data['id'];?>"><?php echo $data['nombre'] ." " .$data['apellido'] ." DNI: " .$data['dni'];?></option>
+                                                    <?php }
+                                                ?>
+                                            </select>
+                                        </label>
+                                        <label for="carrera" required>CARRERA
+                                            <select class="inputPanel" name="carrera" id="carrera" required>
+                                                <?php 
+                                                    while($data2 = mysqli_fetch_assoc($info2)){ ?>
+                                                    <option value="<?php echo $data2['id'];?>"><?php echo $data2['nombreCarrera']?></option>
+                                                    <?php }
+                                                ?>
+                                            </select>
+                                        </label>
+                                    </div >
+                                    <div>
+                                        <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="10" required>Inscribir alumno</label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <button type="submit" class="btn-ok">Agregar</button>
+                                        <a href="panel.php#Materias" class="btn-no ancora">Cancelar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php 
+                        break;
+                        #endregion
+
+                        #region eliminarInscripcion
+                        case 11: ?>
+                        <div class="cajaSpot_cierre-eliminar altura"> <?php
+                                $idU = $_GET['idU'];
+                                $idM = $_GET['idM'];
+                                $con = condb();
+                                $info = mysqli_query($con, "select * from notas where idUsuario = $idU and idMateria = $idM;");
+                                $data = mysqli_fetch_assoc($info); ?>
+                                <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> la siguiente inscripción.</p>
+                                    <div class="cajaSpot_cierre_eliminar-info">
+                                        <div class="cajaSpot_cierre_eliminar_info-usuario">
+                                            <p><b class="bold">CARRERA: </b><?php echo $data['nombreCarrera'];?></p>
+                                            <p><b class="bold">DIAS DE CURSADA: </b><?php echo $data['diasCursada'];?></p>
+                                            <p><b class="bold">TURNO: </b><?php echo $data['turno'];?></p>
+                                        </div>
+                                        <div class="cajaSpot_cierre_eliminar_info-mensaje">
+                                            <p>Para poder <b class="bold red">ELIMINAR</b> permanentemente esta carrera en primer lugar debe eliminar todas las materias que esta tenga asignada.</p>
+                                        </div>
+                                    </div>
+                                    <form class="cajaSpot_cierre_eliminar_info-opciones" method="POST" action="panel.php">
+                                        <label for="confirmar">
+                                            <input type="checkbox" name="confirmar" id="confirmar" value="9" required>
+                                            Ya elimine las materias y ahora quiero eliminar la carrera.
+                                        </label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <input type="hidden" name="id" value ="<?php echo $data['id'] ?>">
+                                        <div>
+                                            <button type="submit" class="btn-no">Eliminar Permanentemente</button>
+                                            <a href="panel.php#Carreras" class="btn-ok ancora">Cancelar</a>
+                                        </div>
+                                    </form>
+                            </div><?php 
+                        break;
+                        #endregion
+
                     }
                 }
                 if(isset($_POST['confirmar'])){ ?>
@@ -565,6 +642,14 @@
                                 $texto = Carrera::eliminarCarrera($_POST['id']);
                                 echo $texto;
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                            break;
+                            case 10: // inscribir alumno
+                                $nota = new Notas($_POST['alumno'],$_POST['carrera']);
+                                $texto = $nota->asignarCarrera();
+                                echo $texto;
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                            break;
+                            case 11: // desasignar carrera
                             break;
                         }?>
                 </div>
