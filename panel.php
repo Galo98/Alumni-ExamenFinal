@@ -171,7 +171,7 @@
 
                 break;
             case 2: // profe ?>
-
+    
             <?php
                 break;
             case 3: //alumno ?>
@@ -527,7 +527,7 @@
                         break;
                         #endregion
 
-                        #region eliminarInscripcion
+                        #region eliminarInscripcion REVISAR
                         case 11: ?>
                         <div class="cajaSpot_cierre-eliminar altura"> <?php
                                 $idU = $_GET['idU'];
