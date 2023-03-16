@@ -171,7 +171,27 @@
 
                 break;
             case 2: // profe ?>
-    
+                <section id="Notas" class="divNotas">
+                    <div class="divNotas-cabecera">
+                        <p class="titulos" >Administración de notas de alumnos</p>
+                    </div>
+                    <table class="lista">
+                    <thead>
+                    <tr>
+                    <th>ALUMNO</th>
+                    <th>CARRERA</th>
+                    <th>1er PARCIAL</th>
+                    <th>2do PARCIAL</th>
+                    <th>FINAL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        // Carrera::listarCarreras();
+                    ?>
+                    </tbody>
+                    </table>
+                </section>
             <?php
                 break;
             case 3: //alumno ?>
