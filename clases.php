@@ -494,12 +494,23 @@ class Notas{
     private $usuario;
     private $carrera;
     private $nota = "null";
+    private $parcial1;
+    private $parcial2;
+    private $final;
     #endregion
 
     #region constructor
     public function __construct($usu,$car){
         $this->usuario = $usu;
         $this->carrera = $car;
+    }
+    #endregion
+
+    #region setNotas
+    public function setNotas($p1,$p2,$f){
+        $this->parcial1 = $p1;
+        $this->parcial2 = $p2;
+        $this->final = $f;
     }
     #endregion
 
@@ -550,21 +561,9 @@ class Notas{
                     <td><?php echo $info['nombre'] ." " .$info['apellido']; ?></td>
                     <td><?php echo $info['materia']; ?></td>
                     <td><?php echo $info['nombreCarrera']; ?></td>
-                    <td><?php if($info['notaParcial1'] >10 ){
-                        echo " ";
-                    }else {
-                        echo $info['notaParcial1'];
-                    } ?></td>
-                    <td><?php if($info['notaParcial2'] >10 ){
-                        echo " ";
-                    }else {
-                        echo $info['notaParcial2'];
-                    }?></td>
-                    <td><?php if($info['notaFinal'] >10 ){
-                        echo " ";
-                    }else {
-                        echo $info['notaFinal'];
-                    }?></td>
+                    <td><?php echo $info['notaParcial1']?></td>
+                    <td><?php echo $info['notaParcial2']?></td>
+                    <td><?php echo $info['notaFinal']?></td>
                     <td>
                         <p class="acciones">
                             <a class="eliminar" href="panel.php?pan=1 & acc=11 & idU=<?php echo $info['idUsuario']; ?> & idM=<?php echo $info['idMateria']?>">
@@ -602,9 +601,10 @@ class Notas{
         if(mysqli_affected_rows($con) == 0){
             echo "<tr><td><b class='bold red'>No hay carreras registradas en el sistema</b></tr></td>";
         }else{
-            while ($info = mysqli_fetch_assoc($data)){ ?>
+            while ($info = mysqli_fetch_assoc($data)){ 
+                $nombre = $info['nombre'] ." " .$info['apellido']?>
                 <tr>
-                    <td><?php echo $info['nombre'] ." " .$info['apellido']; ?></td>
+                    <td><?php echo $nombre; ?></td>
                     <td><?php echo $info['nombreCarrera']; ?></td>
                     <td><?php echo $info['materia']; ?></td>
                     <td><?php echo $info['notaParcial1']; ?></td>
@@ -612,7 +612,7 @@ class Notas{
                     <td><?php echo $info['notaFinal']; ?></td>
                     <td>
                         <p class="acciones">
-                            <a class="modificar" href="panel.php?pan=1 & acc=12 & idU=<?php echo $info['idUsuario']; ?> & idM = <?php echo $info['idMateria']; ?>">
+                            <a class="modificar" href="panel.php?pan=1 & acc=12 & alumno=<?php echo $info['idUsuario']; ?> & idmateria=<?php echo $info['idMateria']; ?> & nombre=<?php echo $nombre; ?> & materia=<?php echo $info['materia'] ?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
                         </p>
@@ -622,6 +622,21 @@ class Notas{
         }
     }
     #endregion
+
+    #region modificarNotas
+    public function modificarNotas(){
+        $con = condb();
+        $text = "";
+
+        mysqli_query($con,"update notas set notaParcial1 = $this->parcial1, notaParcial2 = $this->parcial2 , notaFinal = $this->final where idUsuario = $this->usuario and idMateria = $this->carrera;");
+
+        (mysqli_affected_rows($con) >0) ? $text = "Nota/s modificadas correctamente" : $text = "No se pudo modificar las notas correctamente";
+
+        return $text;
+    }
+    #endregion
+
+
 }
 
 ?>

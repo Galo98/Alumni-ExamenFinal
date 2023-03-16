@@ -589,32 +589,50 @@
                         case 12: 
                         ?>
                         <div class="cajaSpot_cierre-eliminar altura"> <?php
-                                $idU = $_GET['idU'];
-                                $idM = $_GET['idM'];
+                                $idU = $_GET['alumno'];
+                                $idM = $_GET['idmateria'];
+                                $nom = $_GET['nombre'];
+                                $mat = $_GET['materia'];
                                 $con = condb();
                                 $info = mysqli_query($con, "select * from notas where idUsuario = $idU and idMateria = $idM;");
                                 $data = mysqli_fetch_assoc($info); ?>
-                                <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> la siguiente inscripción.</p>
+                                <p>Esta modificando las notas del alumno <b class="bold modificar"><?php echo "$nom" ?></b>.</p>
                                     <div class="cajaSpot_cierre_eliminar-info">
                                         <div class="cajaSpot_cierre_eliminar_info-usuario">
-                                            <p><b class="bold">CARRERA: </b><?php echo $data['nombreCarrera'];?></p>
-                                            <p><b class="bold">DIAS DE CURSADA: </b><?php echo $data['diasCursada'];?></p>
-                                            <p><b class="bold">TURNO: </b><?php echo $data['turno'];?></p>
+                                        <form class="cajaSpot_cierre_eliminar_info-opciones" method="POST" action="panel.php">
+                                            <p>MATERIA <b class="bold"><?php echo $mat; ?></b></p>
+                                            <label for="parcial1">PARCIAL 1
+                                                <input type="number" maxlength="2" class="inputPanel medio" name="parcial1" id="parcial1" value="<?php echo $data['notaParcial1']; ?>">
+                                            </label>
+                                            <?php if($data['notaParcial1'] >= 0 && $data['notaParcial1'] != null){?>
+                                            <label for="parcial2">PARCIAL 2
+                                                <input type="number" class="inputPanel medio" name="parcial2" id="parcial2" value="<?php echo $data['notaParcial2']; ?>">
+                                            </label>
+                                            <?php } else { ?> 
+                                                <input type="hidden" name="parcial2" value="null">
+                                            <?php }
+                                            if($data['notaParcial2'] >= 0 && $data['notaParcial2'] != null){?>
+                                            <label for="final">FINAL
+                                                <input type="number" class="inputPanel medio" name="final" id="final" value="<?php echo $data['notaFinal']; ?>">
+                                            </label>
+                                            <?php } else { ?> 
+                                                <input type="hidden" name="final" value="null"> 
+                                            <?php } ?>
                                         </div>
                                         <div class="cajaSpot_cierre_eliminar_info-mensaje">
-                                            <p>Para poder <b class="bold red">ELIMINAR</b> permanentemente esta carrera en primer lugar debe eliminar todas las materias que esta tenga asignada.</p>
+                                            <p>Para poder <b class="bold modificar">MODIFICAR</b> la nota PARCIAL 2, debe haber cargado previamente la nota PARCIAL 1, y PARCIAL 2 para poder cargar FINAL.</p>
                                         </div>
                                     </div>
-                                    <form class="cajaSpot_cierre_eliminar_info-opciones" method="POST" action="panel.php">
                                         <label for="confirmar">
-                                            <input type="checkbox" name="confirmar" id="confirmar" value="9" required>
-                                            Ya elimine las materias y ahora quiero eliminar la carrera.
+                                            <input type="checkbox" name="confirmar" id="confirmar" value="12" required>
+                                            Modificar notas.
                                         </label>
                                         <input type="hidden" name="pan" value="1"> 
-                                        <input type="hidden" name="id" value ="<?php echo $data['id'] ?>">
+                                        <input type="hidden" name="alumno" value ="<?php echo $idU ?>">
+                                        <input type="hidden" name="materia" value ="<?php echo $idM ?>">
                                         <div>
-                                            <button type="submit" class="btn-no">Eliminar Permanentemente</button>
-                                            <a href="panel.php#Carreras" class="btn-ok ancora">Cancelar</a>
+                                            <button type="submit" class="btn-ok">Cargar notas</button>
+                                            <a href="panel.php#Carreras" class="btn-no ancora">Cancelar</a>
                                         </div>
                                     </form>
                             </div><?php 
@@ -710,6 +728,14 @@
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 11: // desasignar carrera
+                            break;
+                            case 12: // modificar nota
+                                
+                                $modificacion = new Notas($_POST['alumno'],$_POST['materia']);
+                                $modificacion->setNotas($_POST['parcial1'],$_POST['parcial2'],$_POST['final']);
+                                $texto = $modificacion->modificarNotas();
+                                echo $texto;
+                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                         }?>
                 </div>
