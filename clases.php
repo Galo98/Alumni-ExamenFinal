@@ -118,9 +118,10 @@ class Usuario {
                 $contra = mysqli_query($con, " select contraseña from usuarios where dni = $dni");
                 $contra = mysqli_fetch_assoc($contra);
                 if($contra['contraseña'] === $contraseña){
-                    $info = mysqli_query($con,"select * from usuarios where dni = '$dni' ");
-                    $info = mysqli_fetch_assoc($info);
+                    $data = mysqli_query($con,"select * from usuarios where dni = '$dni' ");
+                    $info = mysqli_fetch_assoc($data);
                     session_start();
+                    $_SESSION['id'] = $info['id'];
                     $_SESSION['nombre'] = $info['nombre'];
                     $_SESSION['apellido'] = $info['apellido'];
                     $_SESSION['rol'] = $info['rol'];
@@ -346,7 +347,7 @@ class Materia{
     public static function buscarMateria($id){
         $con = condb();
         
-        $info = mysqli_query($con, "select materias.id, materias.materia, materias.profesor, materias.carrera, usuarios.nombre, usuarios.apellido, usuarios.dni, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id);");
+        $info = mysqli_query($con, "select materias.id, materias.materia, materias.profesor, materias.carrera, usuarios.nombre, usuarios.apellido, usuarios.dni, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id) where materias.id = $id;");
 
         $data = mysqli_fetch_assoc($info);
 
@@ -492,7 +493,7 @@ class Notas{
     #region atributos
     private $usuario;
     private $carrera;
-    private $nota = 0;
+    private $nota = "null";
     #endregion
 
     #region constructor
@@ -506,7 +507,7 @@ class Notas{
     public function asignarCarrera(){
         $con = condb();
         $text = "";
-        $a = mysqli_fetch_assoc(mysqli_query($con,"select count(id) from materias where carrera = 1;"));
+        $a = mysqli_fetch_assoc(mysqli_query($con,"select count(id) from materias where carrera = $this->carrera;"));
         $totalMaterias = $a['count(id)'];
         $contador = 0;
         $agregar = array();
@@ -515,10 +516,10 @@ class Notas{
 
         while($cargar = mysqli_fetch_assoc($materias)){
             if($contador == $totalMaterias - 1){
-                $dato = "(" .$this->usuario ."," .$cargar['id'] .", 11, 11, 11" .")";
+                $dato = "(" .$this->usuario ."," .$cargar['id'] ."," .$this->nota ."," .$this->nota ."," .$this->nota .")";
                 array_push($agregar,$dato);
             }else {
-                $dato = "(" .$this->usuario ."," .$cargar['id'] .", 11, 11, 11" ."),";
+                $dato = "(" .$this->usuario ."," .$cargar['id'] ."," .$this->nota ."," .$this->nota ."," .$this->nota ."),";
                 array_push($agregar,$dato);
             }
             $contador ++;
@@ -590,6 +591,37 @@ class Notas{
     }
     #endregion
 
+    #region listarNotasEditables
+    public static function listarNotasEditables($id){
+        $con = condb();
+
+        $data = mysqli_query($con,"select notas.idUsuario,notas.idMateria, usuarios.nombre, usuarios.apellido, materias.materia, carreras.nombreCarrera ,notas.notaParcial1,notas.notaParcial2,notas.notaFinal from (((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id) inner join carreras on carreras.id = materias.carrera) where materias.profesor = $id;");
+
+        
+
+        if(mysqli_affected_rows($con) == 0){
+            echo "<tr><td><b class='bold red'>No hay carreras registradas en el sistema</b></tr></td>";
+        }else{
+            while ($info = mysqli_fetch_assoc($data)){ ?>
+                <tr>
+                    <td><?php echo $info['nombre'] ." " .$info['apellido']; ?></td>
+                    <td><?php echo $info['nombreCarrera']; ?></td>
+                    <td><?php echo $info['materia']; ?></td>
+                    <td><?php echo $info['notaParcial1']; ?></td>
+                    <td><?php echo $info['notaParcial2']; ?></td>
+                    <td><?php echo $info['notaFinal']; ?></td>
+                    <td>
+                        <p class="acciones">
+                            <a class="modificar" href="panel.php?pan=1 & acc=12 & idU=<?php echo $info['idUsuario']; ?> & idM = <?php echo $info['idMateria']; ?>">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </p>
+                    </td>
+                </tr>
+            <?php   }
+        }
+    }
+    #endregion
 }
 
 ?>

@@ -7,7 +7,7 @@
         die("No tenes credenciales para ingresar a este sitio. Intenta <a href='index.php'> registrate</a>.");
     }
 
-
+    $idSESION = $_SESSION['id'];
     
 
 ?>
@@ -180,14 +180,16 @@
                     <tr>
                     <th>ALUMNO</th>
                     <th>CARRERA</th>
+                    <th>MATERIA</th>
                     <th>1er PARCIAL</th>
                     <th>2do PARCIAL</th>
                     <th>FINAL</th>
+                    <th>ACCIONES</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                        // Carrera::listarCarreras();
+                        Notas::listarNotasEditables($idSESION);
                     ?>
                     </tbody>
                     </table>
@@ -335,7 +337,8 @@
                         
                         #region modificarMateria
                         case 5: // panel modificar materia
-                            $data = Materia::buscarMateria($_GET['id']);
+                            $idMat = $_GET['id'];
+                            $data = Materia::buscarMateria($idMat);
                             $info = Usuario::buscarRol(2);
                             $info2 = Carrera::buscarCarreras();
                             ?>
@@ -581,6 +584,43 @@
                             </div><?php 
                         break;
                         #endregion
+
+                        #region modificarNota
+                        case 12: 
+                        ?>
+                        <div class="cajaSpot_cierre-eliminar altura"> <?php
+                                $idU = $_GET['idU'];
+                                $idM = $_GET['idM'];
+                                $con = condb();
+                                $info = mysqli_query($con, "select * from notas where idUsuario = $idU and idMateria = $idM;");
+                                $data = mysqli_fetch_assoc($info); ?>
+                                <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> la siguiente inscripción.</p>
+                                    <div class="cajaSpot_cierre_eliminar-info">
+                                        <div class="cajaSpot_cierre_eliminar_info-usuario">
+                                            <p><b class="bold">CARRERA: </b><?php echo $data['nombreCarrera'];?></p>
+                                            <p><b class="bold">DIAS DE CURSADA: </b><?php echo $data['diasCursada'];?></p>
+                                            <p><b class="bold">TURNO: </b><?php echo $data['turno'];?></p>
+                                        </div>
+                                        <div class="cajaSpot_cierre_eliminar_info-mensaje">
+                                            <p>Para poder <b class="bold red">ELIMINAR</b> permanentemente esta carrera en primer lugar debe eliminar todas las materias que esta tenga asignada.</p>
+                                        </div>
+                                    </div>
+                                    <form class="cajaSpot_cierre_eliminar_info-opciones" method="POST" action="panel.php">
+                                        <label for="confirmar">
+                                            <input type="checkbox" name="confirmar" id="confirmar" value="9" required>
+                                            Ya elimine las materias y ahora quiero eliminar la carrera.
+                                        </label>
+                                        <input type="hidden" name="pan" value="1"> 
+                                        <input type="hidden" name="id" value ="<?php echo $data['id'] ?>">
+                                        <div>
+                                            <button type="submit" class="btn-no">Eliminar Permanentemente</button>
+                                            <a href="panel.php#Carreras" class="btn-ok ancora">Cancelar</a>
+                                        </div>
+                                    </form>
+                            </div><?php 
+                        break;
+                        #endregion
+
 
                     }
                 }
