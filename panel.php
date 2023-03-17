@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/panel.css">
     <script src="https://kit.fontawesome.com/600e7f7446.js" crossorigin="anonymous"></script>
     <title>Alumni</title>
+    <link rel="shortcut icon" type="image/x-icon" href="alumno.ico">
 </head>
 
 <body>
@@ -561,7 +562,7 @@
                                 <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> la siguiente inscripción.</p>
                                     <div class="cajaSpot_cierre_eliminar-info">
                                         <div class="cajaSpot_cierre_eliminar_info-usuario">
-                                            <p><b class="bold">CARRERA: </b><?php echo $data['nombreCarrera'];?></p>
+                                            <p><b class="bold">ALUMNO: </b><?php echo $data['nombreCarrera'];?></p>
                                             <p><b class="bold">DIAS DE CURSADA: </b><?php echo $data['diasCursada'];?></p>
                                             <p><b class="bold">TURNO: </b><?php echo $data['turno'];?></p>
                                         </div>

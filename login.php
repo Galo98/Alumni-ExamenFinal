@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
     <title>Alumni</title>
+    <link rel="shortcut icon" type="image/x-icon" href="alumno.ico">
 </head>
 
 <body>
