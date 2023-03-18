@@ -21,9 +21,12 @@
     <header>
             <div class="header-div">
                 <nav class="header_div-nav">
-                    <a href="index.php" class="header_div_nav-item">Home</a>
-                    <a href="login.php" class="header_div_nav-item">Log In</a>
-                    <a href="#" class="header_div_nav-item">Sign In</a>
+                    <div class="header_div-nav-box">
+                        <a href="index.php" class="header_div_nav-item">Inicio</a>
+                    </div>
+                    <div class="header_div-nav-box">
+                        <a href="login.php" class="header_div_nav-item">Ingresar</a>
+                    </div>
                 </nav>
             </div>
     </header>

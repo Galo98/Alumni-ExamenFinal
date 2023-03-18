@@ -9,6 +9,7 @@ function condb (){
         return $c;
 }
 
+#region clase Usuario
 class Usuario {
 
 #region atributos
@@ -153,7 +154,7 @@ class Usuario {
     public static function listarUsuarios(){
         $con = condb();
 
-        $data = mysqli_query($con,"select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from usuarios inner join roles on usuarios.rol = roles.id inner join estados on usuarios.idEstado = estados.id;");
+        $data = mysqli_query($con,"select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from usuarios inner join roles on usuarios.rol = roles.id inner join estados on usuarios.idEstado = estados.id order by id;");
         
         while ($info = mysqli_fetch_assoc($data)){ ?>
             <tr>
@@ -255,7 +256,9 @@ class Usuario {
     #endregion
 
 }
+#endregion
 
+#region clase Materia
 class Materia{
 
     #region atributos
@@ -356,7 +359,9 @@ class Materia{
     #endregion
 
 }
+#endregion
 
+#region clase Carrera
 class Carrera{
 
     #region atributos
@@ -487,7 +492,9 @@ class Carrera{
     #endregion
 
 }
+#endregion
 
+#region clase Notas
 class Notas{
 
     #region atributos
@@ -554,11 +561,12 @@ class Notas{
         $data = mysqli_query($con,"select notas.idUsuario,notas.idMateria, usuarios.nombre, usuarios.apellido, materias.materia, carreras.nombreCarrera ,notas.notaParcial1,notas.notaParcial2,notas.notaFinal from (((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id) inner join carreras on carreras.id = materias.carrera );");
 
         if(mysqli_affected_rows($con) == 0){
-            echo "<tr><td><b class='bold red'>No hay carreras registradas en el sistema</b></tr></td>";
+            echo "<tr><td><b class='bold red'>No hay asignaturas registradas en el sistema</b></tr></td>";
         }else{
-            while ($info = mysqli_fetch_assoc($data)){ ?>
+            while ($info = mysqli_fetch_assoc($data)){ 
+                $nombre = $info['nombre'] ." " .$info['apellido'];?>
                 <tr>
-                    <td><?php echo $info['nombre'] ." " .$info['apellido']; ?></td>
+                    <td><?php echo $nombre ?></td>
                     <td><?php echo $info['materia']; ?></td>
                     <td><?php echo $info['nombreCarrera']; ?></td>
                     <td><?php echo $info['notaParcial1']?></td>
@@ -566,7 +574,7 @@ class Notas{
                     <td><?php echo $info['notaFinal']?></td>
                     <td>
                         <p class="acciones">
-                            <a class="eliminar" href="panel.php?pan=1 & acc=11 & idU=<?php echo $info['idUsuario']; ?> & idM=<?php echo $info['idMateria']?>">
+                            <a class="eliminar" href="panel.php?pan=1 & acc=11 & idU=<?php echo $info['idUsuario']; ?> & alumno=<?php echo $nombre ?> & carrera=<?php echo $info['nombreCarrera']; ?>">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </p>
@@ -578,13 +586,13 @@ class Notas{
     #endregion
 
     #region eliminarNotas
-    public function eliminarNotas($usu,$car){
+    public function eliminarNotas(){
         $con = condb();
         $text = "";
 
-        mysqli_query($con,"delete from notas where idUsuario = $this->usuario and idMateria = $this->carrera");
+        mysqli_query($con,"delete from notas where idUsuario = $this->usuario");
 
-        (mysqli_affected_rows($con) >0) ? $text = "Inscripcion de materia eliminada." : $text = "No se pudo eliminar la inscripcion de materia correctamente.";
+        (mysqli_affected_rows($con) >0) ? $text = "Asignatura eliminada correctamente." : $text = "No se pudo eliminar la asignatura correctamente.";
 
         return $text;
     }
@@ -636,7 +644,7 @@ class Notas{
     }
     #endregion
 
-
 }
+#endregion
 
 ?>

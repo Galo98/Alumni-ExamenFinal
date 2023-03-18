@@ -30,26 +30,29 @@
     <header>
             <div class="header-div">
                 <nav class="header_div-nav">
-                    <a href="panel.php" class="header_div_nav-item">Home</a>
-                    <?php 
-                        switch($_SESSION['rol']){
-                            case 1: // admin?>
-                                <a href="#Usuarios" class="header_div_nav-item">Usuarios</a>
-                                <a href="#Carreras" class="header_div_nav-item">Carreras</a>
-                                <a href="#Materias" class="header_div_nav-item">Materias</a>
-                            <?php
-                                break;
-                            case 2: // profe ?>
-                                <a href="#" class="header_div_nav-item">Notas</a>
-                            <?php
-                                break;
-                            case 3: //alumno ?>
-                                <a href="#" class="header_div_nav-item">Notas</a>
-                            <?php
-                                break;
-                        }
-                    ?>
-                    <a href="index.php?close=true" class="header_div_nav-item">Log Out</a>
+                    <div class="header_div-nav-box">
+                        <a href="panel.php" class="header_div_nav-item">Inicio</a>
+                        <?php 
+                            switch($_SESSION['rol']){
+                                case 1: // admin?>
+                                    <a href="#Usuarios" class="header_div_nav-item">Usuarios</a>
+                                    <a href="#Carreras" class="header_div_nav-item">Carreras</a>
+                                    <a href="#Materias" class="header_div_nav-item">Materias</a>
+                                    <a href="#inscribir" class="header_div_nav-item">Asignaturas</a>
+                                <?php
+                                    break;
+                                case 2: // profe ?>
+                                    <a href="#" class="header_div_nav-item">Notas</a>
+                                <?php
+                                    break;
+                                case 3: //alumno ?>
+                                    <a href="#" class="header_div_nav-item">Notas</a>
+                                <?php
+                                    break;
+                            }
+                        ?>
+                    </div>
+                    <div class="header_div-nav-box"><a href="index.php?close=true" class="header_div_nav-item">Salir</a></div>
                 </nav>
             </div>
     </header>
@@ -59,7 +62,8 @@
         switch($_SESSION['rol']){
             case 1: // admin
 
-                #region Usuarios ?>
+                #region Usuarios 
+                ?>
                 <section id="Usuarios" class="divUsuarios">
                     <div class="divUsuarios-cabecera">
                         <p class="titulos" >Administración de usuarios</p>
@@ -89,7 +93,8 @@
                 <?php 
                 #endregion
 
-                #region Carreras?>
+                #region Carreras
+                ?>
                 <section id="Carreras" class="divCarreras">
                     <div class="divCarreras-cabecera">
                         <p class="titulos" >Administración de carreras</p>
@@ -115,7 +120,8 @@
                 <?php 
                 #endregion
                 
-                #region Materias?>
+                #region Materias
+                ?>
                 <section id="Materias" class="divMaterias">
                     <div class="divMaterias-cabecera">
                         <p class="titulos" >Administración de materias</p>
@@ -145,7 +151,7 @@
                 ?>
                 <section id="inscribir" class="divMaterias">
                     <div class="divMaterias-cabecera">
-                        <p class="titulos" >Asignación de materias</p>
+                        <p class="titulos" >Asignaturas</p>
                         <a href="panel.php?pan=1&acc=10#inscribir" class="btn-ok ancora">Inscribir alumno</a>
                     </div>
                     <table class="lista">
@@ -167,11 +173,13 @@
                     </tbody>
                     </table>
                 </section>
-                <?php
-                #endregion
+                <?php break;
+            #endregion
 
-                break;
-            case 2: // profe ?>
+            case 2: // profe 
+
+                #region Administrar notas
+                ?>
                 <section id="Notas" class="divNotas">
                     <div class="divNotas-cabecera">
                         <p class="titulos" >Administración de notas de alumnos</p>
@@ -195,8 +203,10 @@
                     </tbody>
                     </table>
                 </section>
-            <?php
+                <?php
                 break;
+                #endregion
+                
             case 3: //alumno ?>
 
             <?php
@@ -421,7 +431,7 @@
                                         <input type="hidden" name="id" value ="<?php echo $data['id'] ?>">
                                         <div>
                                             <button type="submit" class="btn-no">Eliminar Permanentemente</button>
-                                            <a href="panel.php#Carreras" class="btn-ok ancora">Cancelar</a>
+                                            <a href="panel.php#Materias" class="btn-ok ancora">Cancelar</a>
                                         </div>
                                     </form>
                             </div><?php
@@ -517,7 +527,7 @@
                             $info2 = Carrera::buscarCarreras();
                         ?>
                         <div class="cajaSpot-cierre-crearMateria altura">
-                                <p class="titulos">Inscripciones de alumnos a carreras</p>
+                                <p class="titulos">Inscribir alumno</p>
                                 <form class="formPanel" method="POST" action="panel.php">
                                     <div class="formPanel-inputs">
                                         <label for="alumno" required>ALUMNO
@@ -543,7 +553,7 @@
                                         <label for="agregar"><input type="checkbox" name="confirmar" id="agregar" value="10" required>Inscribir alumno</label>
                                         <input type="hidden" name="pan" value="1"> 
                                         <button type="submit" class="btn-ok">Agregar</button>
-                                        <a href="panel.php#Materias" class="btn-no ancora">Cancelar</a>
+                                        <a href="panel.php#inscribir" class="btn-no ancora">Cancelar</a>
                                     </div>
                                 </form>
                             </div>
@@ -555,31 +565,28 @@
                         case 11: ?>
                         <div class="cajaSpot_cierre-eliminar altura"> <?php
                                 $idU = $_GET['idU'];
-                                $idM = $_GET['idM'];
-                                $con = condb();
-                                $info = mysqli_query($con, "select * from notas where idUsuario = $idU and idMateria = $idM;");
-                                $data = mysqli_fetch_assoc($info); ?>
-                                <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> la siguiente inscripción.</p>
+                                $nombre = $_GET['alumno']; 
+                                $carrera = $_GET['carrera'];?>
+                                <p>Esta a punto de <b class="bold red">ELIMINAR</b> de forma <b class="bold red">PERMANENTE</b> la siguiente carrera asignada</p>
                                     <div class="cajaSpot_cierre_eliminar-info">
                                         <div class="cajaSpot_cierre_eliminar_info-usuario">
-                                            <p><b class="bold">ALUMNO: </b><?php echo $data['nombreCarrera'];?></p>
-                                            <p><b class="bold">DIAS DE CURSADA: </b><?php echo $data['diasCursada'];?></p>
-                                            <p><b class="bold">TURNO: </b><?php echo $data['turno'];?></p>
+                                            <p>ALUMNO: <b class="bold"><?php echo $_GET['alumno'];?></b></p>
+                                            <p>CARREA: <b class="bold"><?php echo $_GET['carrera'];?></b></p>
                                         </div>
                                         <div class="cajaSpot_cierre_eliminar_info-mensaje">
-                                            <p>Para poder <b class="bold red">ELIMINAR</b> permanentemente esta carrera en primer lugar debe eliminar todas las materias que esta tenga asignada.</p>
+                                            <p>Si <b class="bold red">ELIMINA</b> permanentemente esta asignatura se perderan las notas asignadas a las materias correspondientes entre el alumno y la carrera</p>
                                         </div>
                                     </div>
                                     <form class="cajaSpot_cierre_eliminar_info-opciones" method="POST" action="panel.php">
                                         <label for="confirmar">
-                                            <input type="checkbox" name="confirmar" id="confirmar" value="9" required>
-                                            Ya elimine las materias y ahora quiero eliminar la carrera.
+                                            <input type="checkbox" name="confirmar" id="confirmar" value="11" required>
+                                            Eliminar de todas formas
                                         </label>
                                         <input type="hidden" name="pan" value="1"> 
-                                        <input type="hidden" name="id" value ="<?php echo $data['id'] ?>">
+                                        <input type="hidden" name="id" value ="<?php echo $_GET['idU'] ?>">
                                         <div>
-                                            <button type="submit" class="btn-no">Eliminar Permanentemente</button>
-                                            <a href="panel.php#Carreras" class="btn-ok ancora">Cancelar</a>
+                                            <button type="submit" class="btn-no">Eliminar asignatura</button>
+                                            <a href="panel.php#inscribir" class="btn-ok ancora">Cancelar</a>
                                         </div>
                                     </form>
                             </div><?php 
@@ -633,7 +640,7 @@
                                         <input type="hidden" name="materia" value ="<?php echo $idM ?>">
                                         <div>
                                             <button type="submit" class="btn-ok">Cargar notas</button>
-                                            <a href="panel.php#Carreras" class="btn-no ancora">Cancelar</a>
+                                            <a href="panel.php#inscribir" class="btn-no ancora">Cancelar</a>
                                         </div>
                                     </form>
                             </div><?php 
@@ -646,6 +653,7 @@
                 if(isset($_POST['confirmar'])){ ?>
                 <div class="cajaSpot_cierre-notif"><?php
                         switch($_POST['confirmar']){
+
                             case 1: // modificar usuario
                                 $mods = new Usuario($_POST['id'],$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado'],);
                                 $texto = $mods->modificarUsuario();
@@ -717,7 +725,6 @@
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
                             break;
                             case 9: // eliminar carrera
-                                $con = condb();
                                 $texto = Carrera::eliminarCarrera($_POST['id']);
                                 echo $texto;
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
@@ -725,10 +732,16 @@
                             case 10: // inscribir alumno
                                 $nota = new Notas($_POST['alumno'],$_POST['carrera']);
                                 $texto = $nota->asignarCarrera();
-                                echo $texto;
-                                echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
+                                echo $texto; ?>
+                                <a href='panel.php' class='btn-ok ancora'>Cerrar</a>
+                                <?php
                             break;
                             case 11: // desasignar carrera
+                                $nota = new Notas($_POST['id'],null);
+                                $texto = $nota->eliminarNotas();
+                                echo $texto; ?>
+                                <a href='panel.php' class='btn-ok ancora'>Cerrar</a>
+                                <?php
                             break;
                             case 12: // modificar nota
                                 
