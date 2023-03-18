@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
+    <script src="https://kit.fontawesome.com/600e7f7446.js" crossorigin="anonymous"></script>
     <title>Alumni</title>
     <link rel="shortcut icon" type="image/x-icon" href="alumno.ico">
 </head>
@@ -52,7 +53,9 @@
         </div>
     </main>
     <footer>
-
+        <a class="titulos blanco" href="https://github.com/Galo98"><i class="fa-brands fa-github"></i></a>
+        <p class="titulos blanco">Desarrollado por Galo Olguin</p>
+        <a class="titulos blanco" href="https://www.linkedin.com/in/galo-olguin/"><i class="fa-brands fa-linkedin"></i></a>
     </footer>
 </body>
 

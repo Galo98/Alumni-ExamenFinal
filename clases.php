@@ -585,6 +585,31 @@ class Notas{
     }
     #endregion
 
+#region listarNotasAlumno
+    public static function listarNotasAlumno($id){
+        $con = condb();
+
+
+        $data = mysqli_query($con,"select notas.idMateria,notas.notaParcial1,notas.notaParcial2,notas.notaFinal, materias.materia,materias.profesor,materias.carrera,usuarios.nombre,usuarios.apellido, carreras.nombreCarrera from (((notas inner join materias on notas.idMateria = materias.id) inner join usuarios on usuarios.id = materias.profesor) inner join carreras on carreras.id = materias.carrera) where notas.idUsuario = $id;");
+
+        if(mysqli_affected_rows($con) == 0){
+            echo "<tr><td><b class='bold red'>No hay asignaturas registradas en el sistema</b></tr></td>";
+        }else{
+            while ($info = mysqli_fetch_assoc($data)){ 
+                $nombre = $info['nombre'] ." " .$info['apellido'];?>
+                <tr>
+                    <td><?php echo $nombre ?></td>
+                    <td><?php echo $info['materia']; ?></td>
+                    <td><?php echo $info['nombreCarrera']; ?></td>
+                    <td><?php echo $info['notaParcial1']?></td>
+                    <td><?php echo $info['notaParcial2']?></td>
+                    <td><?php echo $info['notaFinal']?></td>
+                </tr>
+            <?php   }
+        }
+    }
+    #endregion
+
     #region eliminarNotas
     public function eliminarNotas(){
         $con = condb();

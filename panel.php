@@ -198,7 +198,7 @@
                     </thead>
                     <tbody>
                     <?php
-                        Notas::listarNotasEditables($idSESION);
+                        Notas::listarNotasEditables($_SESSION['id']);
                     ?>
                     </tbody>
                     </table>
@@ -206,9 +206,31 @@
                 <?php
                 break;
                 #endregion
-                
-            case 3: //alumno ?>
 
+            case 3: //alumno 
+            ?>
+            <section id="inscribir" class="divMaterias">
+                    <div class="divMaterias-cabecera">
+                        <p class="titulos" >Materias y carreras encontradas para <?php echo $_SESSION['nombre'] ." " .$_SESSION['apellido'] ?></p>
+                    </div>
+                    <table class="lista">
+                    <thead>
+                    <tr>
+                    <th>DOCENTE</th>
+                    <th>MATERIA</th>
+                    <th>CARRERA</th>
+                    <th>PARCIAL 1</th>
+                    <th>PARCIAL 2</th>
+                    <th>FINAL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        Notas::listarNotasAlumno($_SESSION['id']);
+                    ?>
+                    </tbody>
+                    </table>
+                </section>
             <?php
                 break;
         }
@@ -758,7 +780,9 @@
         <?php } ?>
     </main>
     <footer>
-
+        <a class="titulos blanco" href="https://github.com/Galo98"><i class="fa-brands fa-github"></i></a>
+        <p class="titulos blanco">Desarrollado por Galo Olguin</p>
+        <a class="titulos blanco" href="https://www.linkedin.com/in/galo-olguin/"><i class="fa-brands fa-linkedin"></i></a>
     </footer>
 </body>
 
