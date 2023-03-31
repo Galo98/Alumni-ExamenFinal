@@ -39,8 +39,8 @@ create table usuarios(
 );
 
 create table materias(
-    id int(2) auto_increment,
-    materia varchar (30),
+    id int auto_increment,
+    materia varchar (60),
     profesor int,
     carrera int,
     foreign key (carrera) references carreras(id),
@@ -101,7 +101,6 @@ insert into materias (materia,profesor,carrera) values
 ('LENGUA Y EXPRESIÓN ESCRITA 1',17,3),
 ('LENGUA Y EXPRESIÓN ORAL 1',18,3);
 
-
 # select id,materia from materias where carrera = 1;
 
 # select count(id) from materias where carrera = 1;
@@ -110,7 +109,7 @@ insert into materias (materia,profesor,carrera) values
 
 # select notas.idUsuario, notas.idMateria, usuarios.nombre, usuarios.apellido, materias.materia, carreras.nombreCarrera ,notas.notaParcial1,notas.notaParcial2,notas.notaFinal from (((usuarios inner join notas on usuarios.id = notas.idUsuario) inner join materias on notas.idMateria = materias.id) inner join carreras on carreras.id = materias.carrera );
 
-#  select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id);
+# select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id);
  
 # select usuarios.id, usuarios.nombre, usuarios.apellido, roles.nombreRol, usuarios.contraseña, usuarios.email, usuarios.dni, estados.nombreEstado from (( usuarios inner join roles on usuarios.rol = roles.id) inner join estados on usuarios.idEstado = estados.id) where usuarios.id = 1;
  
@@ -126,10 +125,8 @@ insert into materias (materia,profesor,carrera) values
 
 # select materias.id, materias.materia, usuarios.nombre, usuarios.apellido, carreras.nombreCarrera from (( materias inner join usuarios on materias.profesor = usuarios.id ) inner join carreras on materias.carrera = carreras.id) where materias.id = 1;
 
-
+#select notas.idMateria,notas.notaParcial1,notas.notaParcial2,notas.notaFinal, materias.materia,materias.profesor,materias.carrera,usuarios.nombre,usuarios.apellido from ((notas inner join materias on materias.id = notas.idMateria) inner join usuarios on usuarios.id = materias.profesor) where notas.idUsuario = 5;
  
- 
-
 
 
 

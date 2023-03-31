@@ -641,7 +641,7 @@
                                             <?php } else { ?> 
                                                 <input type="hidden" name="parcial2" value="null">
                                             <?php }
-                                            if($data['notaParcial2'] >= 0 && $data['notaParcial2'] != null){?>
+                                            if($data['notaParcial1'] >= 4 && $data['notaParcial1'] != null && $data['notaParcial2'] >= 4 && $data['notaParcial2'] != null){?>
                                             <label for="final">FINAL
                                                 <input type="number" class="inputPanel medio" name="final" id="final" value="<?php echo $data['notaFinal']; ?>">
                                             </label>
@@ -677,7 +677,7 @@
                         switch($_POST['confirmar']){
 
                             case 1: // modificar usuario
-                                $mods = new Usuario($_POST['id'],$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado'],);
+                                $mods = new Usuario($_POST['id'],$_POST['nombre'],$_POST['apellido'],$_POST['rol'],$_POST['contraseña'],$_POST['email'],$_POST['dni'],$_POST['estado']);
                                 $texto = $mods->modificarUsuario();
                                 echo $texto;
                                 echo " <a href='panel.php' class='btn-ok ancora'>Cerrar</a>";
