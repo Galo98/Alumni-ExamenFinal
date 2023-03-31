@@ -2,9 +2,9 @@
 
 function condb (){
         $serv="localhost";
-        $usr="root";
-        $pss="";
-        $bd="alumni";
+        $usr="id20468702_keltoi";
+        $pss="A&!6kAgqp7{=+4MX";
+        $bd="id20468702_alumni";
         $c=mysqli_connect($serv, $usr, $pss, $bd);
         return $c;
 }
@@ -168,10 +168,10 @@ class Usuario {
                 <td><?php echo $info['nombreEstado']; ?></td>
                 <td>
                     <p class="acciones">
-                        <a class="modificar" href="panel.php?pan=1 & acc=1 & id=<?php echo $info['id']; ?>">
+                        <a class="modificar" href="panel.php?pan=1&acc=1&id=<?php echo $info['id'];?>">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a class="eliminar" href="panel.php?pan=1 & acc=2 & id=<?php echo $info['id']; ?>">
+                        <a class="eliminar" href="panel.php?pan=1&acc=2&id=<?php echo $info['id'];?>">
                             <i class="fa-solid fa-trash-can"></i>
                         </a>
                     </p>
@@ -332,10 +332,10 @@ class Materia{
                     <td><?php echo $info['nombreCarrera']; ?></td>
                     <td>
                         <p class="acciones">
-                            <a class="modificar" href="panel.php?pan=1 & acc=5 & id=<?php echo $info['id']; ?>">
+                            <a class="modificar" href="panel.php?pan=1&acc=5&id=<?php echo $info['id'];?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a class="eliminar" href="panel.php?pan=1 & acc=6 & id=<?php echo $info['id']; ?>">
+                            <a class="eliminar" href="panel.php?pan=1&acc=6&id=<?php echo $info['id'];?>">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </p>
@@ -457,10 +457,10 @@ class Carrera{
                     <td><?php echo $info['turno']; ?></td>
                     <td>
                         <p class="acciones">
-                            <a class="modificar" href="panel.php?pan=1 & acc=8 & id=<?php echo $info['id']; ?>">
+                            <a class="modificar" href="panel.php?pan=1&acc=8&id=<?php echo $info['id'];?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a class="eliminar" href="panel.php?pan=1 & acc=9 & id=<?php echo $info['id']; ?>">
+                            <a class="eliminar" href="panel.php?pan=1&acc=9&id=<?php echo $info['id'];?>">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </p>
@@ -574,7 +574,7 @@ class Notas{
                     <td><?php echo $info['notaFinal']?></td>
                     <td>
                         <p class="acciones">
-                            <a class="eliminar" href="panel.php?pan=1 & acc=11 & idU=<?php echo $info['idUsuario']; ?> & alumno=<?php echo $nombre ?> & carrera=<?php echo $info['nombreCarrera']; ?>">
+                            <a class="eliminar" href="panel.php?pan=1&acc=11&idU=<?php echo $info['idUsuario'];?>&alumno=<?php echo $nombre ?>&carrera=<?php echo $info['nombreCarrera'];?>">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </p>
@@ -645,7 +645,7 @@ class Notas{
                     <td><?php echo $info['notaFinal']; ?></td>
                     <td>
                         <p class="acciones">
-                            <a class="modificar" href="panel.php?pan=1 & acc=12 & alumno=<?php echo $info['idUsuario']; ?> & idmateria=<?php echo $info['idMateria']; ?> & nombre=<?php echo $nombre; ?> & materia=<?php echo $info['materia'] ?>">
+                            <a class="modificar" href="panel.php?pan=1&acc=12&alumno=<?php echo $info['idUsuario'];?>&idmateria=<?php echo $info['idMateria']; ?>&nombre=<?php echo $nombre; ?>&materia=<?php echo $info['materia']?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
                         </p>
