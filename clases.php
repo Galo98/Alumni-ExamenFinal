@@ -2,9 +2,9 @@
 
 function condb (){
         $serv="localhost";
-        $usr="id20468702_keltoi";
-        $pss="A&!6kAgqp7{=+4MX";
-        $bd="id20468702_alumni";
+        $usr="root";
+        $pss="";
+        $bd="alumni";
         $c=mysqli_connect($serv, $usr, $pss, $bd);
         return $c;
 }
